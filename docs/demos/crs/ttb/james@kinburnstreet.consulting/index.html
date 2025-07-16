@@ -1,0 +1,864 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Through the Breach Character Sheet</title>
+    <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
+    <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>    
+    <style>
+
+        body {
+            background-color: #888;
+        }
+        main {
+            margin: auto;
+            width: 65%;
+            min-width: 800px;
+            max-width: 1000px;
+            background-color: #fff;
+            column-gap: 1ch;
+            padding: 1em;
+        }        
+
+        h1, h2, h3, h4, label, th {
+            font-variant: small-caps;
+        }
+
+        button {
+            border-width: 1px;
+            border-style: solid;
+            background-color: lightgrey;
+            border-color: darkgrey;
+            color: black;
+
+            min-height: 1em;
+            height: 2.0em;
+            max-height: 2.5em;
+
+            margin-top: .2em;
+            margin-bottom: .2em;
+        }
+
+        section.page:nth-of-type(2) {
+            margin-top: 10vh;
+        }
+
+        section.page1 {            
+            display: grid;
+            width: 100%;
+            margin: auto;
+
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 1ch;
+
+            section.aspects {
+                grid-column-start: 1;
+                grid-column-end: 1;
+                grid-row-start: 2;
+                grid-row-end: 2;
+
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 1ch;
+
+                h2 {
+                    grid-column: span 2 / span 2;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                aside:first-of-type {
+                    grid-column: 1;
+                }
+
+                aside:nth-of-type(2) {
+                    grid-column: 2;
+                }
+            }
+
+            section.derived-aspects {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 3;
+                grid-row-end: 3;
+
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 1ch;
+
+                h2 {
+                    grid-column: span 2 / span 2;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                aside:nth-of-type(1) {
+                    grid-column: 1;
+                }
+
+                aside:nth-of-type(2) {
+                    grid-column: 2;
+                }
+            }
+
+            section.aspects, section.derived-aspects {
+                div {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }                
+            }
+
+            section.character-details {
+                grid-column: span 2 / span 2;
+                
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                column-gap: 1ch;
+
+                aside:nth-of-type(1) {
+                    grid-column: 1;
+                }
+
+                aside:nth-of-type(2) {
+                    grid-column: 2;
+                }
+
+                aside {                    
+                    display: grid;                    
+                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-rows: repeat(1, 1fr);
+                    column-gap: 1ch;
+
+                    label:first-of-type {
+                        grid-column: span 2 / span 2;                
+                    }
+
+                    div:first-of-type {
+                        grid-column: span 2 / span 2;
+                        grid-row-start: 2;
+                    }
+
+                    label:nth-of-type(2) {
+                        grid-row-start: 3;
+                    }
+
+                    div:nth-of-type(2) {
+                        grid-column-start: 1;
+                        grid-row-start: 4;                
+                    }
+                }
+            }
+
+            section:not([class~='character-details']) aside
+            {
+                display: grid;
+                grid-template-columns: 60% 40%;
+                column-gap: 1ch;
+
+                label {
+                    grid-column: 1;
+                    margin: auto;
+                    margin-left: 0;
+                }
+
+                div {
+                    grid-column: 2;
+                    margin-right: 2em;
+                }
+            }
+
+            section.attacks {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 4;
+                grid-row-end: 6;
+
+                ul {
+                    list-style-type: none;
+                    padding: 0;
+                    margin: 0;
+                    display: grid;
+                    grid-template-rows: repeat(auto-fit, 1fr);
+
+                    li {
+                        grid-row: auto;
+
+                        div {
+                            display: grid;
+                            grid-template-columns: 40%, 20% 20% 20%;
+                            grid-template-rows: repeat(4, 3vh);
+                            gap: 1ch;
+
+                            label:nth-of-type(1) {
+                                grid-column: 1;
+                                grid-row: 1;
+                            }
+
+                            div:nth-of-type(1) {
+                                grid-column: 1;
+                                grid-row: 2;
+                            }
+
+                            label:nth-of-type(2) {
+                                grid-column: 2;
+                                grid-row: 1;
+                            }
+
+                            div:nth-of-type(2) {
+                                grid-column: 2;
+                                grid-row: 2;
+                            }
+
+                            label:nth-of-type(3) {
+                                grid-column: 3;
+                                grid-row: 1;
+                            }
+
+                            div:nth-of-type(3) {
+                                grid-column: 3;
+                                grid-row: 2;
+                            }
+
+                            label:nth-of-type(4) {
+                                grid-column: 4;
+                                grid-row: 1;
+                            }
+
+                            div:nth-of-type(4) {
+                                grid-column: 4;
+                                grid-row: 2;
+                            }
+                        }
+                    }
+                }
+            }
+
+            section.skills {
+                grid-column: 2;
+                grid-row-start: 2;
+                grid-row-end: 5;
+                table {
+                    width: 100%;
+
+                    input {
+                        width: 90%;
+                    }
+                }
+            }
+        }
+
+        section.page2 {
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            column-gap: 2ch;
+
+            section.grimoire {
+                grid-column: 1;
+
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: repeat(6, 1fr);
+
+                h2:nth-of-type(1) {
+                    grid-column: 1;
+                    grid-row: 1;
+                    text-align: center;                    
+                }
+
+                div:nth-of-type(1) {
+                    grid-column: 1;
+                    grid-row: 2;
+                }
+
+                h2:nth-of-type(2) {
+                    grid-column: 2;
+                    grid-row: 1;
+                    text-align: center;                    
+                }
+
+                div:nth-of-type(2) {
+                    grid-column: 2;
+                    grid-row: 2;
+                }
+
+                h2:nth-of-type(3) {
+                    grid-column: 1 / span 2;
+                    grid-row: 3;
+                    text-align: center;
+                }
+
+                div:nth-of-type(3) {
+                    grid-column: 1 / span 2;
+                    grid-row: 4;
+                    text-align: center;
+                }
+                
+            }
+
+            section.scrip {
+                display: grid;
+                grid-template-columns: 1fr 4fr;
+                
+                div {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    grid-column: 2 / span 3;
+                    width: 10em;
+                }
+            }
+
+            section.equipment {
+                grid-column: 1 / 1;
+                gap: 1ch;
+
+                ul {
+                    padding: 0;
+                }
+
+                ul li {
+                    display: grid;
+                    grid-template-columns: 5fr 1fr;
+                    gap: 1ch;
+
+                    div {
+                        grid-column: 1;                        
+                    }
+
+                    button {
+                        grid-column: 2;
+                    }
+                }
+
+            }
+
+            section.talents {
+                grid-column: span 2 / span 2;
+
+                h2 {
+                    grid-column-start: 1;
+                    grid-column-end:   3;
+                    margin: 0;
+                    padding: 0;
+                    text-align: center;
+                }
+
+                ul {
+                   list-style-type: none;
+                   margin-left: 0;
+                   padding-left: 0;
+                
+                   li {
+                        display: grid;
+                        grid-template-columns: 1fr 4fr 1fr;
+                        gap: 4ch;
+
+                        div:nth-of-type(odd) {
+                            grid-column: 1
+                        }
+
+                        div:nth-of-type(even) {
+                            grid-column: 2;
+                        }
+
+                        button {
+                            grid-column: 3;
+                            min-height: 1em;
+                            max-height: 2.5em;
+                        }
+                   }
+                }
+            }
+
+            section.destiny {
+                grid-column-start: 2;
+                grid-row-start: 2;
+                grid-row-end: 20;        
+
+                gap: 1ch;
+
+                h2 {
+                    grid-column: 1 / span 2;
+                    margin: 0;
+                    padding: 0;
+                    text-align: center;
+                }
+
+                h3 {
+                        font-size: .8em;
+                }
+
+                div.destiny-step {
+                    display: grid;
+                    grid-template-columns: 4fr 1fr;
+                    grid-template-rows:    1fr 1fr;
+
+                    column-gap: 1ch;
+
+                    h3:nth-of-type(1) {
+                        grid-column: 1;
+                        grid-row: 1;
+                    }
+
+                    h3:nth-of-type(2) {
+                        grid-column: 2;
+                        grid-row: 1;
+                        text-align: center;
+                    }
+
+                    div {
+                        grid-column: 1;
+                        max-height: 1.5em;
+                    }
+
+                    fate-card {
+                        grid-column: 2;
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
+                }
+
+
+
+            }
+
+        }
+
+        div[contenteditable="plaintext-only"] {
+            border: 1px solid #ccc;
+            padding: 5px;
+            min-height: 20px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+
+    <script type="module" src="/demos/crs/forms.mjs"></script>
+
+    <script type="module" defer="">
+        class FateCard extends HTMLElement {
+            static suitmap = {
+                'masks': 'M',
+                'crows': 'C',
+                'tomes': 'T',
+                'rams': 'R'
+            }
+
+            constructor() {
+                super();
+            }
+
+            connectedCallback() {
+                this.attachShadow({ mode: 'open' });                
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        :host {
+                            display: table;
+                            border: 1px solid black;
+                            border-radius: 10px;
+                            text-align: center;
+                            width: 2em;
+                            height: 2em;
+                        }
+
+                        :host([suit=tomes]), :host([suit=crows]) {
+                            border: 1px solid black;
+                            color: black;
+                        }
+
+                        :host([suit="masks"]), :host([suit="rams"]) {
+                            border: 1px solid red;
+                            color: red;
+                        }
+
+                        div {
+                            display: table-cell;
+                            vertical-align: middle;
+                        }
+                    </style>
+                    <div class="card">
+                        <span class="number">${this.getAttribute('number')}</span><span class="suit">${this.constructor.suitmap[ this.getAttribute('suit') ]}</span>
+                    </div>
+                `;
+            }
+        }
+
+        customElements.define('fate-card', FateCard)        
+</script>
+</head>
+<body>
+    <main>
+        <header><h1>Through the Breach</h1></header>
+        <section class="page page1">
+
+            <section class="character-details">
+                <aside class="keyval">
+                    <label>Fated Name</label><div contenteditable="plaintext-only" id="character-name">Ebaneezeer Copperbottle</div>
+                    <label>Player Name</label><div contenteditable="plaintext-only" id="player-name">Henry</div>
+                    <label>Station</label><div contenteditable="plaintext-only" id="station">Arcanist</div>
+                </aside>
+                <aside class="keyval">
+                    <label>Pursuits</label><div contenteditable="plaintext-only" id="pursuits"> </div>
+                    <label>Current Pursuit</label><div contenteditable="plaintext-only" id="current-pursuit">Overseer</div>
+                    <label>Characteristics</label><div contenteditable="plaintext-only" id="characteristics">Fated, living</div>
+                </aside>
+            </section>
+
+            <section class="aspects">
+                <h2>Aspects</h2>
+                <aside class="keyval">
+                    <h3>Physical</h3>
+                    <label>Might</label><div contenteditable="plaintext-only" id="might">0</div>
+                    <label>Grace</label><div contenteditable="plaintext-only" id="grace">+2 </div>
+                    <label>Speed</label><div contenteditable="plaintext-only" id="speed">-1&nbsp;</div>
+                    <label>Resillience</label><div contenteditable="plaintext-only" id="resilience">+1&nbsp;</div>
+                </aside>
+                <aside class="keyval">
+                    <h3>Mental</h3>
+                    <label>Intellect</label><div contenteditable="plaintext-only" id="intellect">+3</div>
+                    <label>Charm</label><div contenteditable="plaintext-only" id="charm">0</div>
+                    <label>Cunning</label><div contenteditable="plaintext-only" id="cunning">0</div>
+                    <label>Tenacity</label><div contenteditable="plaintext-only" id="tenacity">-3</div>
+                </aside>
+            </section>
+
+            <section class="derived-aspects">
+                <h2>Derived Aspects</h2>
+                <aside class="keyval">
+                    <label>Defense</label><div contenteditable="plaintext-only" class="defense">2</div>
+                    <label>Armor</label><div contenteditable="plaintext-only" class="armor"></div>
+                    <label>Willpower</label><div contenteditable="plaintext-only" class="willpower">2</div>
+                    <label>Wounds</label><div contenteditable="plaintext-only" class="wounds">5</div>
+                </aside>
+                <aside class="keyval">
+                    <label>Walk</label><div contenteditable="plaintext-only" class="walk">4</div>
+                    <label>Charge</label><div contenteditable="plaintext-only" class="charge"></div>
+                    <label>Initiative</label><div contenteditable="plaintext-only" class="initiative">-1</div>
+                    <label>Height</label><div contenteditable="plaintext-only" class="height">2</div>
+            </aside></section>
+
+            <section class="attacks">
+                <h2>Attacks</h2>
+                <ul id="attacks-list">
+                    <template>
+                        <li> 
+                            <div>
+                                <label>Name</label><div contenteditable="plaintext-only" class="name"></div>
+                                <label>AV</label><div contenteditable="plaintext-only" class="av"></div>
+                                <label>Range</label><div contenteditable="plaintext-only" class="range"></div>
+                                <label>Damage</label><div contenteditable="plaintext-only" class="damage"></div>
+                            </div>  
+                            <div>
+                                <label>Special</label><div contenteditable="plaintext-only" class="special"></div>
+                                <label>Capacity</label><div contenteditable="plaintext-only" class="capacity"></div>
+                                <label>Reload</label><div contenteditable="plaintext-only" class="reload"></div>
+                                <label>TN</label><div contenteditable="plaintext-only" class="tn"></div>
+                            </div>
+                        </li>
+                        <http-can method="delete" selector="#attacks-list li">
+                            <button command="--remove" closest="li">Remove Attack</button>
+                        </http-can>
+                    </template>
+                    <li> 
+                        <div>
+                            <label>Name</label><div contenteditable="plaintext-only" class="name">Enfield</div>
+                            <label>AV</label><div contenteditable="plaintext-only" class="av">5</div>
+                            <label>Range</label><div contenteditable="plaintext-only" class="range">17</div>
+                            <label>Damage</label><div contenteditable="plaintext-only" class="damage">2/3/4</div>
+                        </div>  
+                        <div>
+                            <label>Special</label><div contenteditable="plaintext-only" class="special">Rifle</div>
+                            <label>Capacity</label><div contenteditable="plaintext-only" class="capacity">1</div>
+                            <label>Reload</label><div contenteditable="plaintext-only" class="reload">2AP</div>
+                            <label>TN</label><div contenteditable="plaintext-only" class="tn"></div>
+                        </div>
+                        <http-can method="delete" selector="#attacks-list li">
+                            <button command="--remove" closest="li">Remove Attack</button>
+                        </http-can>
+                    </li>
+                </ul>
+                <button command="--add" commandfor="skills-list" type="button">Add Row</button>
+
+                <http-can method="post" selector="#attacks-list">
+                    <button command="--add" commandfor="attacks-list">Add Attack</button>
+                </http-can>
+            </section>
+
+            <section class="skills">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Skill</th>
+                            <th>AV</th>
+                            <th>Rating</th>
+                            <th>Aspect</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="skills-list">
+                        <template>
+                            <tr>
+                                <td contenteditable="plaintext-only" slot="skill"></td>
+                                <td contenteditable="plaintext-only" slot="av"></td>
+                                <td contenteditable="plaintext-only" slot="rating"></td>
+                                <td contenteditable="plaintext-only" slot="aspect"></td>                                
+                                <td>
+                                    <http-can method="delete" selector="#skills-list tr">
+                                        <button command="--remove" closest="tr">Remove</button>
+                                    </http-can>
+                                </td>
+                            </tr>
+                        </template>
+                        <tr>
+                            <td contenteditable="plaintext-only">Artefacting</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only" slot="rating"></td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>
+                            </td>
+                        </tr>    
+                        <tr>
+                            <td contenteditable="plaintext-only">Forgery</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">1</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can> 
+                            </td>
+                        </tr>    
+                        <tr>
+                            <td contenteditable="plaintext-only">Explosives</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">2</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>                                    
+                            </td>
+                        </tr>    
+                        <tr>
+                            <td contenteditable="plaintext-only">Enchanting</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">2</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>     
+                            </td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="plaintext-only">Blacksmithing</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">2</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="plaintext-only">Long Arms</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">2</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="plaintext-only">Printing</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">2</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="plaintext-only">Heavy Guns</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">2</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="plaintext-only">Gambling</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">1</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="plaintext-only">Literacy</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td contenteditable="plaintext-only">2</td>
+                            <td contenteditable="plaintext-only"></td>
+                            <td>
+                                <http-can method="delete" selector="#skills-list tr">
+                                    <button command="--remove" closest="tr">Remove</button>
+                                </http-can>
+                            </td>
+                        </tr>
+                    </tbody>                       
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <http-can method="post" selector="#skills-list">
+                                    <button command="--add" commandfor="skills-list" type="button">Add Row</button>
+                                </http-can>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+        </section>
+
+
+        <section class="page page2">
+            <section class="talents">
+                <h2>Talents / Manifested Powers / Magical Theories</h2>
+                <ul id="talent-list">
+                    <template>
+                        <li>
+                            <div contenteditable="plaintext-only"></div><div contenteditable="plaintext-only"></div>
+                            <http-can method="DELETE" selector="#talent-list li">
+                                <button command="--remove" closest="li">Remove</button>
+                            </http-can>
+                        </li>    
+                    </template>
+                    <li>
+                        <div contenteditable="plaintext-only"></div><div contenteditable="plaintext-only">Management material (page 133)</div>
+                        <http-can method="DELETE" selector="#talent-list li">
+                            <button command="--remove" closest="li">Remove</button>
+                        </http-can>
+                    </li>
+                    <li>
+                        <div contenteditable="plaintext-only"></div><div contenteditable="plaintext-only">Unequalled accuracy</div>
+                        <http-can method="DELETE" selector="#talent-list li">
+                            <button command="--remove" closest="li">Remove</button>
+                        </http-can>
+                    </li>
+                    <li>
+                        <div contenteditable="plaintext-only"></div><div contenteditable="plaintext-only">Give it a good thwump (page 197) - crows</div>
+                        <http-can method="DELETE" selector="#talent-list li">
+                            <button command="--remove" closest="li">Remove</button>
+                        </http-can>
+                    </li>
+                </ul>
+                <http-can method="post" selector="#talent-list">
+                    <button command="--add" commandfor="talent-list" type="button">Add Talent</button>
+                </http-can>
+            </section>
+
+            <section class="scrip">
+                <h2>Scrip</h2>
+                <div contenteditable="plaintext-only" class="scrip">10</div>
+            </section>
+
+            <section class="equipment">
+                <h2>Equipment</h2>
+                <ul id="equipment-list">
+                    <template>
+                        <li>
+                            <div contenteditable="plaintext-only"></div>
+                            <http-can method="delete" selector="#equipment-list li">
+                                <button command="--remove" closest="li">Remove</button>
+                            </http-can>                
+                        </li>    
+                    </template>
+                    <li>
+                        <div contenteditable="plaintext-only">Non magical toolkit</div>
+                        <http-can method="delete" selector="#equipment-list li">
+                            <button command="--remove" closest="li">Remove</button>
+                        </http-can>                
+                    </li>
+                    <li>
+                        <div contenteditable="plaintext-only">Enfield Muskatoon</div>
+                        <http-can method="delete" selector="#equipment-list li">
+                            <button command="--remove" closest="li">Remove</button>
+                        </http-can>                
+                    </li>
+                </ul>
+                <http-can method="post" selector="#equipment-list">
+                    <button command="--add" commandfor="equipment-list" type="button">Add Equipment</button>
+                </http-can>
+            </section>
+
+            <section class="grimoire">
+                
+                <h2>Magia</h2>
+                <div contenteditable="plaintext-only" class="grimoire"></div>
+
+                <h2>Immuto</h2>
+                <div contenteditable="plaintext-only" class="immuto"></div>
+
+                <h2>Special</h2>
+                <div contenteditable="plaintext-only" class="special"></div>
+
+            </section>
+        
+            <section class="destiny">
+                <h2>Destiny</h2>
+
+                <div class="destiny-step">
+                    <h3>Endeavour Destiny</h3>
+                    <div contenteditable="plaintext-only">If you know the dimming of the lanterns</div>
+                    <h3>Card</h3>
+                    <fate-card suit="masks" number="11"></fate-card>
+                </div>
+
+                <div class="destiny-step">
+                    <h3>Mind Destiny</h3>
+                    <div contenteditable="plaintext-only">you will not be deceived by the ghosts of the tower</div>
+                    <h3>Card</h3>
+                    <fate-card suit="crows" number="14"></fate-card>
+                </div>
+
+                <div class="destiny-step">
+                    <h3>Root Destiny</h3>
+                    <div contenteditable="plaintext-only">as the witless man fears the child.</div>
+                    <h3>Card</h3>
+                    <fate-card suit="tomes" number="2"></fate-card>
+                </div>
+
+                <div class="destiny-step">
+                    <h3>Body Destiny</h3>
+                    <div contenteditable="plaintext-only">Only the penitent will tread the winding path</div>
+                    <h3>Card</h3>
+                    <fate-card suit="tomes" number="7"></fate-card>
+                </div>
+
+                <div class="destiny-step">
+                    <h3>Station Destiny</h3>
+                    <div contenteditable="plaintext-only">and she will kissed the hanged man's lips.</div>
+                    <h3>Card</h3>
+                    <fate-card suit="tomes" number="13"></fate-card>
+                </div>
+            </section>
+        
+        </section>
+    </main>
+
+</body></html>

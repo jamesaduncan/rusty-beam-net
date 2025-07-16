@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OAuth2 Plugin - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/plugins/">Plugins</a> → 
+        OAuth2
+    </nav>
+
+    <h1>OAuth2 Plugin</h1>
+    <p>The OAuth2 plugin provides authentication using OAuth2 providers (Google, GitHub, Azure AD, etc.), integrating seamlessly with Rusty Beam's authorization system.</p>
+
+    <h2>Overview</h2>
+    <p>This plugin implements the OAuth2 authorization code flow for authentication with any OAuth2-compliant provider. It handles login, callback, logout, and status endpoints while maintaining session state. The plugin sets the <code>authenticated_user</code> metadata that can be used by the authorization plugin for access control decisions.</p>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li>Full OAuth2 authorization code flow implementation</li>
+        <li>Support for multiple providers (Google, GitHub)</li>
+        <li>Automatic token exchange and user info fetching</li>
+        <li>Secure session management with encrypted cookies</li>
+        <li>Automatic integration with the authorization plugin</li>
+        <li>Session cookies with HttpOnly and SameSite protection</li>
+        <li>Support for return URL preservation across the OAuth flow</li>
+        <li>User endpoint for retrieving authenticated user information</li>
+        <li>CSRF protection using state parameter validation</li>
+    </ul>
+
+    <h2>Configuration</h2>
+    <p>Add the OAuth2 plugin to your host configuration <strong>before</strong> the authorization plugin:</p>
+    <pre><code>&lt;!-- Google OAuth2 configuration --&gt;
+&lt;td itemprop="plugin" itemscope itemtype="http://rustybeam.net/OAuth2Plugin"&gt;
+    &lt;span itemprop="library"&gt;file://./plugins/librusty_beam_oauth2.so&lt;/span&gt;
+    &lt;span itemprop="clientIdEnv"&gt;GOOGLE_CLIENT_ID&lt;/span&gt;
+    &lt;span itemprop="clientSecretEnv"&gt;GOOGLE_CLIENT_SECRET&lt;/span&gt;
+    &lt;span itemprop="redirectUriEnv"&gt;GOOGLE_OAUTH2_CALLBACK&lt;/span&gt;
+&lt;/td&gt;
+
+&lt;!-- GitHub OAuth2 configuration with custom login path --&gt;
+&lt;td itemprop="plugin" itemscope itemtype="http://rustybeam.net/OAuth2Plugin"&gt;
+    &lt;span itemprop="library"&gt;file://./plugins/librusty_beam_oauth2.so&lt;/span&gt;
+    &lt;span itemprop="name"&gt;github-oauth2&lt;/span&gt;
+    &lt;span itemprop="clientIdEnv"&gt;GITHUB_CLIENT_ID&lt;/span&gt;
+    &lt;span itemprop="clientSecretEnv"&gt;GITHUB_CLIENT_SECRET&lt;/span&gt;
+    &lt;span itemprop="redirectUriEnv"&gt;GITHUB_REDIRECT_URI&lt;/span&gt;
+    &lt;span itemprop="loginPath"&gt;/auth/github/signin&lt;/span&gt;
+&lt;/td&gt;</code></pre>
+
+    <h2>Configuration Parameters</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>clientIdEnv</code></td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>-</td>
+                <td>Environment variable name to read OAuth2 client ID from</td>
+            </tr>
+            <tr>
+                <td><code>clientSecretEnv</code></td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>-</td>
+                <td>Environment variable name to read OAuth2 client secret from</td>
+            </tr>
+            <tr>
+                <td><code>redirectUriEnv</code></td>
+                <td>String</td>
+                <td>Yes</td>
+                <td>-</td>
+                <td>Environment variable name to read OAuth2 redirect URI from</td>
+            </tr>
+            <tr>
+                <td><code>name</code></td>
+                <td>String</td>
+                <td>No</td>
+                <td>oauth2</td>
+                <td>Plugin instance name</td>
+            </tr>
+            <tr>
+                <td><code>loginPath</code></td>
+                <td>String</td>
+                <td>No</td>
+                <td>/auth/{name}/login</td>
+                <td>Path where login requests will be handled</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="warning">
+        <strong>⚠️ Plugin Pipeline Placement</strong><br>
+        This plugin MUST be placed before the authorization plugin in the pipeline. It sets the <code>authenticated_user</code> metadata that the authorization plugin uses for access control decisions.
+    </div>
+
+    <h2>Environment Variables</h2>
+    <p>The plugin reads all OAuth2 configuration from environment variables for security. You must specify which environment variables to use via the <code>clientIdEnv</code>, <code>clientSecretEnv</code>, and <code>redirectUriEnv</code> configuration parameters.</p>
+    
+    <div class="info">
+        <strong>Multiple OAuth2 Providers:</strong> You can use this plugin multiple times with different OAuth2 providers by configuring different environment variable names. For example, you could have one instance reading from <code>GOOGLE_CLIENT_ID</code> and another reading from <code>GITHUB_CLIENT_ID</code>.
+    </div>
+
+    <h2>OAuth2 Provider Setup</h2>
+    <p>Example setup for common providers:</p>
+    
+    <h3>Google</h3>
+    <ol>
+        <li>Go to <a href="https://console.cloud.google.com/">Google Cloud Console</a></li>
+        <li>Create OAuth 2.0 credentials</li>
+        <li>Add redirect URI to authorized URIs</li>
+    </ol>
+    
+    <h3>GitHub</h3>
+    <ol>
+        <li>Go to GitHub Settings → Developer settings → OAuth Apps</li>
+        <li>Register a new OAuth application</li>
+        <li>Set authorization callback URL</li>
+    </ol>
+    
+    <h3>Azure AD</h3>
+    <ol>
+        <li>Go to Azure Portal → App registrations</li>
+        <li>Register new application</li>
+        <li>Add redirect URI under Authentication</li>
+    </ol>
+
+    <h2>Endpoints</h2>
+    <p>The plugin provides the following endpoints:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Endpoint</th>
+                <th>Method</th>
+                <th>Description</th>
+                <th>Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>{loginPath}</code></td>
+                <td>GET</td>
+                <td>Initiates OAuth2 flow</td>
+                <td>302 redirect to OAuth provider</td>
+            </tr>
+            <tr>
+                <td><code>{callback path}</code></td>
+                <td>GET</td>
+                <td>OAuth2 callback handler</td>
+                <td>302 redirect to return URL or /</td>
+            </tr>
+            <tr>
+                <td><code>/auth/logout</code></td>
+                <td>POST</td>
+                <td>Destroys session</td>
+                <td>302 redirect to return URL or /</td>
+            </tr>
+            <tr>
+                <td><code>/auth/user</code></td>
+                <td>GET</td>
+                <td>Returns current user information</td>
+                <td>HTML with schema.org/Person microdata</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="info">
+        <strong>Dynamic Endpoints:</strong>
+        <ul>
+            <li>The login path defaults to <code>/auth/{name}/login</code> but can be customized using the <code>loginPath</code> configuration</li>
+            <li>The callback path is automatically derived from the redirect URI environment variable</li>
+            <li>For example, if <code>GOOGLE_OAUTH2_CALLBACK</code> is set to <code>https://example.com/auth/google/callback</code>, the callback endpoint will be <code>/auth/google/callback</code></li>
+            <li>The <code>/auth/user</code> endpoint returns HTML with schema.org/Person microdata only if there's an active session, otherwise passes through</li>
+        </ul>
+    </div>
+
+    <h2>Examples</h2>
+    
+    <h3>HTML Login Button</h3>
+    <pre><code>&lt;!-- Default login path --&gt;
+&lt;a href="/auth/oauth2/login?return_to=/dashboard" class="login-btn"&gt;
+    Login with OAuth
+&lt;/a&gt;
+
+&lt;!-- Custom login path (when loginPath is configured) --&gt;
+&lt;a href="/auth/github/signin?return_to=/dashboard" class="login-btn"&gt;
+    Login with GitHub
+&lt;/a&gt;</code></pre>
+
+    <h3>JavaScript Authentication Check</h3>
+    <pre><code>async function checkAuth() {
+    const response = await fetch('/auth/user');
+    
+    if (response.ok) {
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        // Extract user info from microdata
+        const userEl = doc.querySelector('[itemtype="https://schema.org/Person"]');
+        if (userEl) {
+            const email = userEl.querySelector('[itemprop="email"]')?.textContent;
+            const name = userEl.querySelector('[itemprop="name"]')?.textContent;
+            console.log(`Logged in as: ${name} (${email})`);
+            // Show authenticated UI
+        }
+    } else {
+        // User not authenticated - show login button
+    }
+}</code></pre>
+
+    <h3>User Endpoint Response Format</h3>
+    <p>The <code>/auth/user</code> endpoint returns HTML with schema.org/Person microdata when a user is authenticated:</p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;User Information&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div itemscope itemtype="https://schema.org/Person"&gt;
+        &lt;p&gt;Email: &lt;span itemprop="email"&gt;user@example.com&lt;/span&gt;&lt;/p&gt;
+        &lt;p&gt;Name: &lt;span itemprop="name"&gt;John Doe&lt;/span&gt;&lt;/p&gt;
+        &lt;p&gt;Image: &lt;span itemprop="image"&gt;https://example.com/avatar.jpg&lt;/span&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <div class="info">
+        <strong>Note:</strong> If no user is authenticated, the plugin will not respond and the request will pass through to other plugins in the pipeline.
+    </div>
+
+    <h3>Logout Implementation</h3>
+    <pre><code>async function logout() {
+    const response = await fetch('/auth/logout?return_to=/', {
+        method: 'POST'
+    });
+    
+    if (response.ok) {
+        window.location.href = '/';
+    }
+}</code></pre>
+
+    <h3>Using with Authorization Rules</h3>
+    <p>In your authorization configuration, you can grant permissions to specific users by email:</p>
+    <pre><code>&lt;tr itemscope itemtype="http://rustybeam.net/AuthorizationRule"&gt;
+    &lt;td itemprop="username"&gt;user@gmail.com&lt;/td&gt;
+    &lt;td itemprop="path"&gt;/admin/*&lt;/td&gt;
+    &lt;td&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;ul&gt;&lt;li itemprop="method"&gt;GET&lt;/li&gt;&lt;/ul&gt;&lt;/td&gt;
+    &lt;td itemprop="action"&gt;allow&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+
+    <h2>Integration with Other Plugins</h2>
+    <p>The OAuth2 plugin integrates primarily with:</p>
+    <ul>
+        <li><strong><a href="/docs/plugins/authorization/">Authorization Plugin</a></strong>: Sets <code>authenticated_user</code> metadata containing the user's email address</li>
+        <li><strong>Any plugin that reads metadata</strong>: The authenticated user information is available in request metadata</li>
+    </ul>
+
+    <h2>Session Management</h2>
+    <p>Sessions are managed in-memory with the following characteristics:</p>
+    <ul>
+        <li>Session IDs are UUIDs generated using a cryptographically secure random number generator</li>
+        <li>Session cookies are HttpOnly and use SameSite=Lax protection</li>
+        <li>Sessions are marked as Secure when using HTTPS</li>
+        <li>No session expiration is currently implemented (sessions persist until logout or server restart)</li>
+    </ul>
+
+    <div class="info">
+        <strong>Design Note:</strong> The current implementation stores sessions in memory. For production use, consider implementing persistent session storage (e.g., Redis) or session expiration.
+    </div>
+
+    <h2>Security Considerations</h2>
+    <ul>
+        <li><strong>HTTPS Required for Production:</strong> OAuth2 credentials and session cookies should only be transmitted over HTTPS</li>
+        <li><strong>Client Secret Protection:</strong> Never expose the client secret in client-side code or public repositories</li>
+        <li><strong>CSRF Protection:</strong> The plugin uses OAuth2 state parameter to prevent CSRF attacks</li>
+        <li><strong>Session Fixation:</strong> New session IDs are generated on each login</li>
+        <li><strong>Scope Limitations:</strong> The plugin only requests email and profile scopes</li>
+    </ul>
+
+    <h2>Troubleshooting</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Issue</th>
+                <th>Possible Cause</th>
+                <th>Solution</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>500 Error on login</td>
+                <td>Missing client_id or client_secret</td>
+                <td>Ensure OAuth2 credentials are configured correctly</td>
+            </tr>
+            <tr>
+                <td>Invalid redirect URI error</td>
+                <td>Mismatch between configured and provider URIs</td>
+                <td>Verify redirect_uri matches exactly in both places</td>
+            </tr>
+            <tr>
+                <td>403 on callback</td>
+                <td>Invalid or missing state parameter</td>
+                <td>Check for cookie issues or middleware interference</td>
+            </tr>
+            <tr>
+                <td>User not authorized after login</td>
+                <td>Plugin order incorrect</td>
+                <td>Ensure OAuth2 plugin is before authorization plugin</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Debug Logging</h3>
+    <p>Enable verbose mode to see detailed OAuth2 flow information:</p>
+    <pre><code>cargo run -- -v config/config.html</code></pre>
+
+    <h2>Limitations</h2>
+    <ul>
+        <li>Sessions are stored in memory and lost on server restart</li>
+        <li>No session expiration mechanism</li>
+        <li>Supports any OAuth2-compliant provider</li>
+        <li>No token refresh implementation</li>
+        <li>Test implementation returns mock user data (production implementation needed)</li>
+    </ul>
+
+    <h2>See Also</h2>
+    <ul>
+        <li><a href="/docs/plugins/authorization/">Authorization Plugin</a> - Works with this plugin for access control</li>
+        <li><a href="/docs/AuthorizationRule/">Authorization Rule Schema</a> - Define permissions for OAuth users</li>
+        <li><a href="https://oauth.net/2/">OAuth 2.0 Specification</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc6749">OAuth 2.0 Specification (RFC 6749)</a></li>
+    </ul>
+</body>
+</html>

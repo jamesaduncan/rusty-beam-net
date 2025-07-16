@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PluginConfig Schema - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body itemscope itemtype="http://rustybeam.net/PluginConfig">
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/schema/">Schemas</a> → 
+        PluginConfig
+    </nav>
+    
+    <h1>PluginConfig Schema</h1>
+    
+    <h2>Schema Definition</h2>
+    
+    <p>Schema URL: <code>http://rustybeam.net/PluginConfig</code></p>
+    
+    <div class="warning">
+        <strong>⚠️ Note:</strong> This schema appears to be used incorrectly in some configuration files. 
+        The correct schema for plugin configuration is <a href="../Plugin/">http://rustybeam.net/Plugin</a>.
+        This documentation is provided for completeness, but you should use the Plugin schema instead.
+    </div>
+    
+    <p>PluginConfig is the internal Rust struct name for plugin configuration. In HTML configuration files, 
+    this should be represented using the <code>http://rustybeam.net/Plugin</code> itemtype.</p>
+    
+    <h2>Properties</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Cardinality</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr itemscope itemtype="http://organised.team/Property">
+                <td><span itemprop="name">plugin-path</span></td>
+                <td><span itemprop="type">URL</span></td>
+                <td><span itemprop="cardinality">1</span></td>
+                <td><span itemprop="description"><strong>Incorrect property name.</strong> Should use "library" instead. This appears in test-config-separate-auth.html but is not recognized by the parser. The correct property name is "library" with a file:// URL (e.g., "file://./plugins/basic-auth.so")</span></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Correct Usage</h2>
+    
+    <p>Instead of using PluginConfig with plugin-path, use the Plugin schema with library property:</p>
+    
+    <pre><code>&lt;tr itemprop="plugin" itemscope itemtype="http://rustybeam.net/Plugin"&gt;
+    &lt;td&gt;Plugin&lt;/td&gt;
+    &lt;td itemprop="library"&gt;file://./plugins/basic-auth.so&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <h2>Using itemref for Plugin Properties</h2>
+    
+    <p>When you need to associate properties with a plugin using itemref, the properties should reference the plugin's id:</p>
+    
+    <pre><code>&lt;tr id="my-plugin" itemprop="plugin" itemscope itemtype="http://rustybeam.net/Plugin"&gt;
+    &lt;td&gt;Plugin&lt;/td&gt;
+    &lt;td itemprop="library"&gt;file://./plugins/basic-auth.so&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;Authentication File&lt;/td&gt;
+    &lt;td itemref="my-plugin" itemprop="authFile"&gt;./auth/users.html&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <footer>
+    </footer>
+</body>
+</html>
