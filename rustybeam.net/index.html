@@ -348,7 +348,7 @@
                 <li><a href="/demos/">Demos</a></li>
                 <li><a href="/plugins/">Plugins</a></li>
                 <li><a href="/schema/">Schemas</a></li>
-                <li><a href="https://github.com/jamesaduncan/rusty-beam">GitHub</a></li>
+                <li><a href="https://github.com/your-org/rusty-beam">GitHub</a></li>
                 <li>
                     <button class="signin-btn" popovertarget="signin-popover">
                         Sign In
@@ -384,7 +384,7 @@
             <p>A high-performance HTTP server with a powerful plugin architecture and CSS selector-based HTML manipulation</p>
             <div class="cta-buttons">
                 <a href="/quickstart" class="cta-btn cta-primary">Get Started</a>
-                <a href="https://github.com/jamesaduncan/rusty-beam" class="cta-btn cta-secondary">View on GitHub</a>
+                <a href="https://github.com/your-org/rusty-beam" class="cta-btn cta-secondary">View on GitHub</a>
             </div>
         </div>
     </section>
@@ -430,7 +430,7 @@
             <h2>Simple Configuration</h2>
             <div class="code-block">
                 <pre><code>&lt;!-- Configure your server with HTML --&gt;
-&lt;table itemscope itemtype="http://rustybeam.net/ServerConfig"&gt;
+&lt;table itemscope itemtype="https://rustybeam.net/schema/ServerConfig"&gt;
     &lt;tr&gt;
         &lt;td&gt;Bind Address&lt;/td&gt;
         &lt;td&gt;&lt;span itemprop="bindAddress"&gt;127.0.0.1&lt;/span&gt;&lt;/td&gt;
@@ -442,7 +442,7 @@
 &lt;/table&gt;
 
 &lt;!-- Add plugins with simple configuration --&gt;
-&lt;td itemprop="plugin" itemscope itemtype="http://rustybeam.net/OAuth2Plugin"&gt;
+&lt;td itemprop="plugin" itemscope itemtype="https://rustybeam.net/schema/OAuth2Plugin"&gt;
     &lt;span itemprop="library"&gt;file://./plugins/librusty_beam_oauth2.so&lt;/span&gt;
     &lt;span itemprop="clientIdEnv"&gt;GOOGLE_CLIENT_ID&lt;/span&gt;
     &lt;span itemprop="loginPath"&gt;/auth/google/login&lt;/span&gt;

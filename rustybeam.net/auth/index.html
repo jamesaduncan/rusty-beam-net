@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/assets/css/auth-admin.css">
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>
+    <script type="module" src="https://jamesaduncan.github.io/schema-elements/index.mjs"></script>
 </head>
 <body>
     <header>
@@ -13,6 +14,9 @@
         <nav class="admin-nav">
             <a href="/">🏠 Home</a> → 
             <span class="current">👥 Users &amp; Authorization</span>
+            <http-can href="/config/">
+                → <a href="/config/">⚙️ Server Configuration</a>
+            </http-can>
         </nav>
     </header>
     
@@ -50,7 +54,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr itemscope="" itemtype="http://rustybeam.net/Credential" class="user-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/Credential" class="user-row">
                     <td>
                         <span itemprop="username" class="editable" contenteditable="plaintext-only">test@example.com</span>
                     </td>
@@ -65,7 +69,7 @@
                         <button onclick="deleteUser(this)" class="btn-danger">Delete</button>
                     </td>
                 </tr>
-                <tr itemscope="" itemtype="http://rustybeam.net/Credential" class="user-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/Credential" class="user-row">
                     <td>
                         <span itemprop="username" class="editable" contenteditable="plaintext-only">james@kinburnstreet.consulting</span>
                     </td>
@@ -81,7 +85,7 @@
                     </td>
                 </tr>
                 
-            <tr itemscope="" itemtype="http://rustybeam.net/Credential" class="user-row">
+            <tr itemscope="" itemtype="https://rustybeam.net/schema/Credential" class="user-row">
             <td>
                 <span itemprop="username" class="editable" contenteditable="plaintext-only">james@stance.global</span>
             </td>
@@ -157,7 +161,7 @@
             </thead>
             <tbody>                
                 <!-- Allow everyone to access static assets -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/assets/*</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -181,7 +185,7 @@
                 </tr>
 
                 <!-- Allow everyone to access the home page -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -204,7 +208,7 @@
                 </tr>
 
                 <!-- Deny anonymous access to authorization admin -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -230,7 +234,7 @@
                 </tr>
 
                 <!-- Deny anonymous access to config admin -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/config/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -256,7 +260,7 @@
                     </td>
                 </tr>
 
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span class="editable" contenteditable="plaintext-only" itemprop="username">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/*</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -284,7 +288,7 @@
                 </tr>                
                 
                 <!-- Allow everyone to read the guestbook -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/guestbook/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -307,7 +311,7 @@
                 </tr>
             
                 <!-- Allow everyone to read entries specifically -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/guestbook/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#entries</span></td>
@@ -330,7 +334,7 @@
                 </tr>
                 
                 <!-- Allow everyone to add entries (POST to #entries) -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/guestbook/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#entries</span></td>
@@ -353,7 +357,7 @@
                 </tr>
                 
                 <!-- Deny deletion of entries by default -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/guestbook/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#entries .entry</span></td>
@@ -376,7 +380,7 @@
                 </tr>
                 
                 <!-- Allow administrators to delete individual entries -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="role" class="editable" contenteditable="plaintext-only">administrators</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/guestbook/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#entries .entry</span></td>
@@ -400,7 +404,7 @@
                 
                 <!-- Todo App Rules -->
                 <!-- Allow everyone to read the todo app -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -426,7 +430,7 @@
                 
                 
                 <!-- Allow everyone to add todos -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#todos</span></td>
@@ -449,7 +453,7 @@
                 </tr>
                 
                 <!-- Deny deletion of todos by default -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#todos li</span></td>
@@ -471,31 +475,12 @@
                     </td>
                 </tr>
                 
-                <!-- Allow authenticated users to delete their own todos -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
-                    <td><span itemprop="username" class="editable" contenteditable="plaintext-only">user</span></td>
-                    <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
-                    <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#todos li</span></td>
-                    <td class="methods-cell">
-                        <ul class="methods-list">
-                            <li class="method-tag"><span itemprop="method">DELETE</span> <button onclick="removeMethod(this)" class="btn-small">×</button></li>
-                        </ul>
-                        <button onclick="addMethodToRule(this)" class="btn-small">+ Method</button>
-                    </td>
-                    <td>
-                        <select itemprop="action" class="action-select" onchange="updateRule(this)">
-                            <option value="allow" selected="">allow</option>
-                            <option value="deny">deny</option>
-                        </select>
-                    </td>
-                    <td><span class="editable" contenteditable="plaintext-only">Allow authenticated users to delete todos</span></td>
-                    <td class="actions-cell">
-                        <button onclick="deleteRule(this)" class="btn-danger">Delete</button>
-                    </td>
-                </tr>
+                <!-- Rule removed: Was allowing any authenticated user to delete any todo
+                     This conflicted with the more specific rule below that only allows
+                     users to delete their own todos using ${username} placeholder -->
                 
                 <!-- Allow WebSocket connections -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/ws</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -518,7 +503,7 @@
                 </tr>
                 
                 <!-- Allow administrators to access authorization admin interface -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="role" class="editable" contenteditable="plaintext-only">administrators</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -544,7 +529,7 @@
                 </tr>
                 
                 <!-- Allow administrators to use selectors on authorization admin interface -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="role" class="editable" contenteditable="plaintext-only">administrators</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">*</span></td>
@@ -570,7 +555,7 @@
                 </tr>
                 
                 <!-- Allow everyone to access OAuth2 endpoints -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/google/login</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -592,7 +577,7 @@
                     </td>
                 </tr>
                 
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/google/callback</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -614,7 +599,7 @@
                     </td>
                 </tr>
                 
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/logout</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -636,7 +621,7 @@
                     </td>
                 </tr>
                 
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/user</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -659,7 +644,7 @@
                 </tr>
                 
                 <!-- Allow administrators to access config admin interface -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="role" class="editable" contenteditable="plaintext-only">administrators</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/config/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -686,7 +671,7 @@
                 </tr>
                 
                 <!-- Allow administrators to use selectors on config admin interface -->
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="role" class="editable" contenteditable="plaintext-only">administrators</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/config/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">*</span></td>
@@ -712,7 +697,7 @@
                     </td>
                 </tr>
 
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">user</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/crs/ttb/:username/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#skills-list, #talent-list, #equipment-list</span></td>
@@ -735,7 +720,7 @@
                     </td>
                 </tr>
 
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">user</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/crs/ttb/:username/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">[contenteditable]</span></td>
@@ -757,7 +742,7 @@
                     </td>
                 </tr>
 
-                <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">user</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/crs/ttb/:username/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#skills-list tr, #talent-list li, #equipment-list li</span></td>
@@ -780,13 +765,39 @@
                 </tr>
 
 
-            </tbody>
+            <!-- Allow authenticated users to delete only their own todos -->
+            <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
+            <td><span class="editable" contenteditable="plaintext-only" itemprop="username">user</span></td>
+            <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
+            <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">li:has(meta[content="${username}"])</span></td>
+            <td class="methods-cell">
+                <ul class="methods-list">
+                    <!-- Method tags will be inserted here -->
+                
+        <li class="method-tag">
+            <span itemprop="method">DELETE</span>
+            <button onclick="removeMethod(this)" class="btn-small">×</button>
+        </li>
+    </ul>
+                <button onclick="addMethodToRule(this)" class="btn-small">+ Method</button>
+            </td>
+            <td>
+                <select itemprop="action" class="action-select" onchange="updateRule(this)">
+                    <option value="allow" selected="">allow</option>
+                    <option value="deny">deny</option>
+                </select>
+            </td>
+            <td><span class="editable" contenteditable="plaintext-only">Users can delete only the todo items they created (matches username in metadata)</span></td>
+            <td class="actions-cell">
+                <button onclick="deleteRule(this)" class="btn-danger">Delete</button>
+            </td>
+        </tr></tbody>
         </table>
     </section>
     
     <!-- Templates for dynamic content -->
     <template id="userRowTemplate">
-        <tr itemscope="" itemtype="http://rustybeam.net/Credential" class="user-row">
+        <tr itemscope="" itemtype="https://rustybeam.net/schema/Credential" class="user-row">
             <td>
                 <span itemprop="username" class="editable" contenteditable="plaintext-only"></span>
             </td>
@@ -810,7 +821,7 @@
     </template>
     
     <template id="ruleRowTemplate">
-        <tr itemscope="" itemtype="http://rustybeam.net/AuthorizationRule" class="rule-row">
+        <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
             <td><span class="editable" contenteditable="plaintext-only"></span></td>
             <td><span itemprop="path" class="editable" contenteditable="plaintext-only"></span></td>
             <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>

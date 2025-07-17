@@ -21,7 +21,7 @@
             <h2>Server Settings</h2>
         </div>
         
-        <table itemref="host-localhost" itemscope="" itemtype="http://rustybeam.net/ServerConfig">
+        <table itemref="host-localhost" itemscope="" itemtype="https://rustybeam.net/schema/ServerConfig">
             <thead class="ui-only">
                 <tr>
                     <th>Property</th>
@@ -46,7 +46,7 @@
             <button class="button" onclick="addPlugin()">+ Add Plugin</button>
         </div>
         
-        <table id="host-localhost" itemscope="" itemtype="http://rustybeam.net/HostConfig">
+        <table id="host-localhost" itemscope="" itemtype="https://rustybeam.net/schema/HostConfig">
             <thead class="ui-only">
                 <tr>
                     <th>Property</th>
@@ -82,7 +82,7 @@
                 <!-- Plugin rows will be inserted here -->
                 <tr>
                     <td class="ui-only">OAuth2</td>
-                        <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/CorsPlugin">
+                        <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/CorsPlugin">
                             <div class="plugin-config">
                                 <div class="config-property">
                                     <label class="property-label ui-only">library:</label>
@@ -108,7 +108,7 @@
 
                 <tr>
                     <td class="ui-only">OAuth2</td>
-                        <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/OAuth2Plugin">
+                        <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/OAuth2Plugin">
                             <div class="plugin-config">
                                 <div class="config-property">
                                     <label class="property-label ui-only">library:</label>
@@ -143,7 +143,7 @@
                     </tr>
                     <tr>
                         <td class="ui-only">OAuth2</td>
-                            <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/OAuth2Plugin">
+                            <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/OAuth2Plugin">
                                 <div class="plugin-config">
                                     <div class="config-property">
                                         <label class="property-label ui-only">library:</label>
@@ -182,7 +182,7 @@
                         </tr>
                         <tr>
                         <td class="ui-only">Authorization</td>
-                        <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/schema/AuthorizationPlugin">
+                        <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/schema/AuthorizationPlugin">
                             <div class="plugin-config">
                                 <div class="config-property">
                                     <label class="property-label ui-only">library:</label>
@@ -205,7 +205,7 @@
                     </tr>
                     <tr>
                         <td class="ui-only">WebSocket</td>
-                        <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/schema/WebSocketPlugin">
+                        <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/schema/WebSocketPlugin">
                             <div class="plugin-config">
                                 <div class="config-property">
                                     <label class="property-label ui-only">library:</label>
@@ -224,7 +224,7 @@
                     </tr>
                     <tr>
                         <td class="ui-only">Config Reload</td>
-                        <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/schema/ConfigReloadPlugin">
+                        <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/schema/ConfigReloadPlugin">
                             <div class="plugin-config">
                                 <div class="config-property">
                                     <label class="property-label">library:</label>
@@ -243,7 +243,7 @@
                     </tr>
                     <tr>
                         <td class="ui-only">Selector Handler</td>
-                    <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/schema/SelectorHandlerPlugin">
+                    <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/schema/SelectorHandlerPlugin">
                         <div class="plugin-config">
                             <div class="config-property">
                                 <label class="property-label">library:</label>
@@ -262,7 +262,7 @@
                 </tr>
                 <tr>
                     <td class="ui-only">File Handler</td>
-                    <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/schema/FileHandlerPlugin">
+                    <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/schema/FileHandlerPlugin">
                         <div class="plugin-config">
                             <div class="config-property">
                                 <label class="property-label">library:</label>
@@ -279,9 +279,114 @@
                         </div>
                     </td>
                 </tr>
+
+
+
+
+                <tr>
+                    <td class="ui-only">Compression</td>
+                    <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/CompressionPlugin">
+                        <div class="plugin-config">
+                            <div class="config-property">
+                                <label class="property-label ui-only">library:</label>
+                                <span itemprop="library" class="property-value">file:///usr/lib/rusty-beam/plugins/librusty_beam_compression.so</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">algorithms:</label>
+                                <span itemprop="algorithms" class="property-value editable" contenteditable="true">gzip,deflate,brotli</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">min_size:</label>
+                                <span itemprop="min_size" class="property-value editable" contenteditable="true">1024</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">max_size:</label>
+                                <span itemprop="max_size" class="property-value editable" contenteditable="true">10485760</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">compression_level:</label>
+                                <span itemprop="compression_level" class="property-value editable" contenteditable="true">6</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">compressible_types:</label>
+                                <span itemprop="compressible_types" class="property-value editable" contenteditable="true">text/html,text/css,text/javascript,text/plain,application/json,application/javascript,application/xml,image/svg+xml</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="ui-only">
+                        <div class="plugin-controls">
+                            <button class="button secondary" onclick="movePlugin(this, 'up')">↑</button>
+                            <button class="button secondary" onclick="movePlugin(this, 'down')">↓</button>
+                            <button class="button secondary" onclick="editPlugin(this)">Edit</button>
+                            <button class="button danger" onclick="removePlugin(this)">Remove</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui-only">Redirect</td>
+                    <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/RedirectPlugin">
+                        <div class="plugin-config initialized">
+                            <div class="config-property">
+                                <label class="property-label ui-only">library:</label>
+                                <span itemprop="library" class="property-value">file:///usr/lib/rusty-beam/plugins/librusty_beam_redirect.so</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">config_file:</label>
+                                <span itemprop="config_file" class="property-value editable field-success" contenteditable="true" title="">./docs/config/index.html</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="ui-only">
+                        <div class="plugin-controls">
+                            <button class="button secondary" onclick="movePlugin(this, 'up')">↑</button>
+                            <button class="button secondary" onclick="movePlugin(this, 'down')">↓</button>
+                            <button class="button secondary" onclick="editPlugin(this)">Edit</button>
+                            <button class="button danger" onclick="removePlugin(this)">Remove</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="ui-only">Error Handler</td>
+                    <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/ErrorHandlerPlugin">
+                        <div class="plugin-config initialized">
+                            <div class="config-property">
+                                <label class="property-label ui-only">library:</label>
+                                <span itemprop="library" class="property-value">file:///usr/lib/rusty-beam/plugins/librusty_beam_error_handler.so</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">error_page_404:</label>
+                                <span itemprop="error_page_404" class="property-value editable field-success" contenteditable="true" title="">errors/404.html</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">error_page_500:</label>
+                                <span itemprop="error_page_500" class="property-value editable" contenteditable="true">errors/500.html</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">error_page_403:</label>
+                                <span itemprop="error_page_403" class="property-value editable" contenteditable="true">errors/403.html</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">error_template_dir:</label>
+                                <span itemprop="error_template_dir" class="property-value editable" contenteditable="true">./docs/errors</span>
+                            </div>
+                            <div class="config-property">
+                                <label class="property-label ui-only">log_errors:</label>
+                                <span itemprop="log_errors" class="property-value editable" contenteditable="true">true</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="ui-only">
+                        <div class="plugin-controls">
+                            <button class="button secondary" onclick="movePlugin(this, 'up')">↑</button>
+                            <button class="button secondary" onclick="movePlugin(this, 'down')">↓</button>
+                            <button class="button secondary" onclick="editPlugin(this)">Edit</button>
+                            <button class="button danger" onclick="removePlugin(this)">Remove</button>
+                        </div>
+                    </td>
+                </tr>
                 <tr>
                     <td class="ui-only">Access Log</td>
-                    <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/schema/AccessLogPlugin">
+                    <td itemprop="plugin" itemscope="" itemtype="https://rustybeam.net/schema/AccessLogPlugin">
                         <div class="plugin-config">
                             <div class="config-property">
                                 <label class="property-label ui-only">library:</label>
@@ -297,30 +402,7 @@
                             <button class="button danger" onclick="removePlugin(this)">Remove</button>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td class="ui-only">Redirect</td>
-                    <td itemprop="plugin" itemscope="" itemtype="http://rustybeam.net/schema/RedirectPlugin">
-                        <div class="plugin-config">
-                            <div class="config-property">
-                                <label class="property-label ui-only">library:</label>
-                                <span itemprop="library" class="property-value">file:///usr/lib/rusty-beam/plugins/librusty_beam_redirect.so</span>
-                            </div>
-                            <div class="config-property">
-                                <label class="property-label ui-only">config_file:</label>
-                                <span itemprop="config_file" class="property-value editable" contenteditable="true">config/redirect-rules.html</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="ui-only">
-                        <div class="plugin-controls">
-                            <button class="button secondary" onclick="movePlugin(this, 'up')">↑</button>
-                            <button class="button secondary" onclick="movePlugin(this, 'down')">↓</button>
-                            <button class="button secondary" onclick="editPlugin(this)">Edit</button>
-                            <button class="button danger" onclick="removePlugin(this)">Remove</button>
-                        </div>
-                    </td>
-                </tr>
+                </tr>      
             </tbody>
         </table>
 
@@ -329,7 +411,7 @@
             <h2>Redirect Rules</h2>
         </div>
         
-        <table id="redirect-rules" itemscope="" itemtype="http://rustybeam.net/PluginConfig">
+        <table id="redirect-rules" itemscope="" itemtype="https://rustybeam.net/schema/PluginConfig">
             <thead class="ui-only">
                 <tr>
                     <th>From Pattern</th>
@@ -340,7 +422,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr itemscope="" itemtype="http://rustybeam.net/RedirectRule">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/RedirectRule">
                     <td>
                         <span itemprop="from" class="rule-value editable" contenteditable="true">^/auth/.*$</span>
                     </td>
