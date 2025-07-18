@@ -55,7 +55,19 @@
             color: #007bff;
         }
 
-        nav span:first-of-type:before {
+        nav > div {
+            display: inline-block;
+        }
+
+        nav > div {
+            visibility: hidden;
+        }
+
+        nav > div:has(meta[content]:not([content=''])) {
+            visibility:visible;
+        }
+
+        nav > div span:first-of-type:before {
             content: " | ";
         }
 
@@ -64,23 +76,44 @@
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>
     <script type="module" src="https://jamesaduncan.github.io/schema-elements/index.mjs"></script>
+
     <script type="module">
         import { MicrodataAPI } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
         document.addEventListener("DOMContentLoaded", async () => {
-            const userData = await MicrodataAPI.render( document.querySelector('#user'), "/auth/user");
-            MicrodataAPI.apply( document.querySelector('nav'), userData, );
+            const userData = await MicrodataAPI.fetch( "/auth/user" );
+            MicrodataAPI.apply( document.querySelector('nav > div'), userData, );
             MicrodataAPI.apply( document.querySelector('form'), userData, );
-        })
+
+            const form = document.querySelector('form#new-todo');
+            form.addEventListener('submit', async( event ) => {
+                event.preventDefault();
+                if ( MicrodataAPI.validate( form ) ) {
+                    const template = document.querySelector('#todos template')
+                    document.querySelector('#todos').POST( MicrodataAPI.render( template, form ));
+                    form.reset();
+                } else {
+                    const error = document.createElement('div');
+                    error.className = 'error';
+                    error.textContent = 'Please fill out all required fields.';
+                    form.appendChild(error);
+                    setTimeout(() => error.remove(), 3000);
+                }
+            });
+        });
     </script>
+    
 </head>
 <body>
     <header>
-        <nav itemtype="https://schema.org/Person">
+        <nav>
             <menu>
                 <li><a href="/">← Home</a></li>
                 <li><a href="/demos/">← Demos</a></li>
             </menu>
-            <span itemprop="name"></span> (<span itemprop="email"></span>)
+            <div itemtype="https://schema.org/Person">
+                <meta itemprop="email" content="">
+                <span itemprop="name"></span> (<span itemprop="email"></span>)
+            </div>
         </nav>    
         <h1>Todo List</h1>
     </header>
@@ -94,27 +127,20 @@
 
     <div id="authInfo">
         <p>Welcome! You can add and manage your todos.</p>
+        <p>If you're logged in, then you can add and remove todo items.</p>
     </div>
     
     <div id="todoForm">
         <h2>Add Todo</h2>
         <http-can method="post" selector="#todos">
-            <form id="new-todo" itemtype="https://schema.org/Person">
+            <form id="new-todo">
                 <input type="hidden" name="@context" value="https://schema.org">
                 <input type="hidden" name="@type" value="Action">
-                <input itemprop="email" type="hidden" name="email">
+                <div itemtype="https://schema.org/Person" itemscope="">
+                    <input itemprop="email" type="hidden" name="email">
+                </div>
                 <input type="text" name="name" placeholder="Enter a todo..." required="">
                 <button>Add Todo</button>
-                <script type="module">
-                    import { MicrodataAPI } from "https://jamesaduncan.github.io/schema-elements/index.mjs";                    
-                    const form = document.querySelector('form#new-todo');
-                    form.addEventListener('submit', async( event ) => {
-                        event.preventDefault();
-                        const template = document.querySelector('#todos template')
-                        document.querySelector('#todos').POST( MicrodataAPI.render( template, form ));
-                    });
-                    form.reset();
-                </script>
             </form>
         </http-can>
     </div>
@@ -130,34 +156,6 @@
                 </http-can>
             </li>
         </template>
-        <li itemscope="" itemtype="https://schema.org/Action">
-            <meta itemprop="email" content="jamesaduncan@mac.com">
-            <span itemprop="name">Make the MicrodataAPI work as I need.</span>
-            <http-can method="delete" closest="#todos li">
-                <button onclick="this.closest('li').DELETE()">Remove</button>
-            </http-can>
-        </li>
-        <li itemscope="" itemtype="https://schema.org/Action">
-            <meta itemprop="email" content="jamesaduncan@mac.com">
-            <span>I hope this works as I intend it to!</span>
-            <http-can method="delete" closest="#todos li">
-                <button onclick="this.closest('li').DELETE()">Remove</button>
-            </http-can>
-        </li>
-        <li itemscope="" itemtype="https://schema.org/Action">
-            <meta itemprop="email" content="james@kinburnstreet.consulting">
-            <span>I hope this works as I intend it to!</span>
-            <http-can method="delete" closest="#todos li">
-                <button onclick="this.closest('li').DELETE()">Remove</button>
-            </http-can>
-        </li>
-        <li itemscope="" itemtype="https://schema.org/Action">
-            <meta itemprop="email" content="jamesaduncan@mac.com">
-            <span itemprop="name">Another todo. Will this work? Let's find out!</span>
-            <http-can method="delete" selector="#todos li">
-                <button onclick="this.closest('li').DELETE()">Remove</button>
-            </http-can>
-        </li>
     </ul>
     
 </body></html>
