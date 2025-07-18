@@ -431,7 +431,7 @@
                 
                 <!-- Allow everyone to add todos -->
                 <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
-                    <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
+                    <td><span itemprop="username" class="editable" contenteditable="plaintext-only">user</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#todos</span></td>
                     <td class="methods-cell">
@@ -446,7 +446,7 @@
                             <option value="deny">deny</option>
                         </select>
                     </td>
-                    <td><span class="editable" contenteditable="plaintext-only">Allow everyone to add new todos</span></td>
+                    <td><span class="editable" contenteditable="plaintext-only">Allow logged in users to add new todos</span></td>
                     <td class="actions-cell">
                         <button onclick="deleteRule(this)" class="btn-danger">Delete</button>
                     </td>

@@ -2,81 +2,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List - Rusty Beam Demo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        input[type="text"] {
-            width: 300px;
-            padding: 5px;
-        }
-        
-        button {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        
-        .todo-item {
-            margin: 10px 0;
-            padding: 5px;
-            border: 1px solid #ccc;
-        }
-        
-        .completed {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-        
-        .error {
-            color: red;
-        }
-        
-        .success {
-            color: green;
-        }
-
-        menu {
-            display: inline-block;
-            list-style-type: none;
-            margin-left: 0;
-            padding-left: 0;
-
-            li {
-                display: inline;
-            }
-        }
-
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        nav > div {
-            display: inline-block;
-        }
-
-        nav > div {
-            visibility: hidden;
-        }
-
-        nav > div:has(meta[content]:not([content=''])) {
-            visibility:visible;
-        }
-
-        nav > div span:first-of-type:before {
-            content: " | ";
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
     <!-- Include DOM-aware primitives for real-time updates -->
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>
-    <script type="module" src="https://jamesaduncan.github.io/schema-elements/index.mjs"></script>
-
     <script type="module">
         import { MicrodataAPI } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
         document.addEventListener("DOMContentLoaded", async () => {
@@ -87,32 +16,36 @@
             const form = document.querySelector('form#new-todo');
             form.addEventListener('submit', async( event ) => {
                 event.preventDefault();
-                if ( MicrodataAPI.validate( form ) ) {
-                    const template = document.querySelector('#todos template')
-                    document.querySelector('#todos').POST( MicrodataAPI.render( template, form ));
-                    form.reset();
-                } else {
-                    const error = document.createElement('div');
-                    error.className = 'error';
-                    error.textContent = 'Please fill out all required fields.';
-                    form.appendChild(error);
-                    setTimeout(() => error.remove(), 3000);
-                }
+                document.querySelector('#todos').POST( MicrodataAPI.render( document.querySelector('#todos template'), form ));
+                form.reset();
             });
         });
+
+        document.logout = async() => {
+            const response = await fetch('/auth/logout', { method: 'post' });
+            if ( response.ok ) {
+                window.location.reload();
+            } else {
+                console.log(`logout failed: ${response.status} ${response.statusText}`);
+            }
+        }
     </script>
-    
+
 </head>
 <body>
+    
     <header>
         <nav>
             <menu>
                 <li><a href="/">← Home</a></li>
                 <li><a href="/demos/">← Demos</a></li>
             </menu>
+            <http-cannot method="POST" selector="#todos">
+                <a href="/auth/google/login?return_to=/demos/todo/">Login with Google</a> <a href="/auth/github/login?/demos/todo/">Login with GitHub</a>
+            </http-cannot>
             <div itemtype="https://schema.org/Person">
                 <meta itemprop="email" content="">
-                <span itemprop="name"></span> (<span itemprop="email"></span>)
+                <span itemprop="name"></span> (<button onclick="document.logout()">Log Out</button>)
             </div>
         </nav>    
         <h1>Todo List</h1>
@@ -125,15 +58,59 @@
         </div>
     </template>
 
-    <div id="authInfo">
-        <p>Welcome! You can add and manage your todos.</p>
-        <p>If you're logged in, then you can add and remove todo items.</p>
-    </div>
-    
-    <div id="todoForm">
-        <h2>Add Todo</h2>
-        <http-can method="post" selector="#todos">
-            <form id="new-todo">
+    <main>
+        <header>
+            <p>
+                This is a trivial todo-list application to demonstrate the power of a DOM-Aware server combined with
+                HTML5 Microdata formats
+            </p>
+            <p>
+                If you're logged in, then you can add todo items, and remove todo items that you've created.
+            </p>
+        </header>
+        
+        <h2>My Todos</h2>
+        <ul id="todos">
+            <template>
+                <li itemscope="" itemtype="https://schema.org/Action">
+                    <meta itemprop="email" content="">
+                    <span itemprop="name">This will be the todo item</span>
+                    <http-can method="delete" closest="#todos li">
+                        <button onclick="this.closest('li').DELETE()">Remove</button>
+                    </http-can>
+                </li>
+            </template>
+            <li itemscope="" itemtype="https://schema.org/Action">
+                <meta itemprop="email" content="james@kinburnstreet.consulting">
+                <span itemprop="name">I need to figure out what to do next.</span>
+                <http-can method="delete" closest="#todos li">
+                    <button onclick="this.closest('li').DELETE()">Remove</button>
+                </http-can>
+            </li>
+            <li itemscope="" itemtype="https://schema.org/Action">
+                <meta itemprop="email" content="jamesaduncan@mac.com">
+                <span itemprop="name">Why's that?</span>
+                <http-can method="delete" closest="#todos li">
+                    <button onclick="this.closest('li').DELETE()">Remove</button>
+                </http-can>
+            </li>
+            <li itemscope="" itemtype="https://schema.org/Action">
+                <meta itemprop="email" content="james@kinburnstreet.consulting">
+                <span itemprop="name">Because that is what todo lists are for!</span>
+                <http-can method="delete" closest="#todos li">
+                    <button onclick="this.closest('li').DELETE()">Remove</button>
+                </http-can>
+            </li>
+
+        <li itemscope="" itemtype="https://schema.org/Action">
+                    <meta itemprop="email" content="james@kinburnstreet.consulting">
+                    <span itemprop="name">Get to bed!</span>
+                    <http-can method="delete" closest="#todos li">
+                        <button onclick="this.closest('li').DELETE()">Remove</button>
+                    </http-can>
+                </li></ul>
+        <form id="new-todo">
+            <http-can method="post" selector="#todos">
                 <input type="hidden" name="@context" value="https://schema.org">
                 <input type="hidden" name="@type" value="Action">
                 <div itemtype="https://schema.org/Person" itemscope="">
@@ -141,21 +118,9 @@
                 </div>
                 <input type="text" name="name" placeholder="Enter a todo..." required="">
                 <button>Add Todo</button>
-            </form>
-        </http-can>
-    </div>
-    
-    <h2>My Todos</h2>
-    <ul id="todos">
-        <template>
-            <li itemscope="" itemtype="https://schema.org/Action">
-                <meta itemprop="email" content="">
-                <span itemprop="name">This will be the todo item</span>
-                <http-can method="delete" closest="#todos li">
-                    <button onclick="this.closest('li').DELETE()">Remove</button>
-                </http-can>
-            </li>
-        </template>
-    </ul>
+            </http-can>
+        </form>
+
+    </main>    
     
 </body></html>
