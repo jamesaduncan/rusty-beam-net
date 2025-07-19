@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Boolean DataType - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body itemscope itemtype="https://rustybeam.net/schema/DataType">
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/schema/">Schemas</a> → 
+        Boolean
+    </nav>
+    
+    <h1><span itemprop="name">Boolean</span> DataType</h1>
+    
+    <p itemprop="description">The Boolean type represents true/false values.</p>
+    
+    <h2>Definition</h2>
+    
+    <table>
+        <tr>
+            <th>Type URL</th>
+            <td><code itemprop="id">https://rustybeam.net/schema/Boolean</code></td>
+        </tr>
+        <tr>
+            <th>Base Type</th>
+            <td><code itemprop="baseType">boolean</code></td>
+        </tr>
+        <tr>
+            <th>Default Pattern</th>
+            <td><code itemprop="validationPattern">^(true|false|1|0|yes|no|on|off)$</code></td>
+        </tr>
+        <tr>
+            <th>Constraints</th>
+            <td><span itemprop="constraints">{"case_insensitive": true}</span></td>
+        </tr>
+    </table>
+    
+    <h2>Accepted Values</h2>
+    
+    <p>The validation pattern accepts (case-insensitive):</p>
+    <ul>
+        <li>Standard: <code>true</code>, <code>false</code></li>
+        <li>Numeric: <code>1</code> (true), <code>0</code> (false)</li>
+        <li>English: <code>yes</code> (true), <code>no</code> (false)</li>
+        <li>Switch: <code>on</code> (true), <code>off</code> (false)</li>
+    </ul>
+    
+    <h2>Usage in Property Definitions</h2>
+    
+    <pre><code>&lt;tr itemscope itemtype="https://rustybeam.net/schema/Property"&gt;
+    &lt;td&gt;&lt;span itemprop="name"&gt;isActive&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="type"&gt;Boolean&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="cardinality"&gt;1&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="description"&gt;Whether the account is active&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <h2>Usage in Data</h2>
+    
+    <pre><code>&lt;meta itemprop="isActive" content="true"&gt;</code></pre>
+    
+    <div class="info">
+        <p><strong>Note:</strong> For boolean values in HTML, use <code>&lt;meta&gt;</code> tags with the <code>content</code> attribute, or store the value in element text content.</p>
+    </div>
+    
+    <h2>Normalization</h2>
+    
+    <p>Validation software should normalize all accepted values to canonical <code>true</code> or <code>false</code>:</p>
+    <ul>
+        <li><code>true</code>, <code>1</code>, <code>yes</code>, <code>on</code> → <code>true</code></li>
+        <li><code>false</code>, <code>0</code>, <code>no</code>, <code>off</code> → <code>false</code></li>
+    </ul>
+    
+    <h2>See Also</h2>
+    
+    <ul>
+        <li><a href="/schema/DataType/">DataType</a> - The meta-schema for data types</li>
+        <li><a href="/schema/Text/">Text</a> - Text data type</li>
+        <li><a href="/schema/Number/">Number</a> - Numeric data type</li>
+        <li><a href="/schema/DateTime/">DateTime</a> - Date and time data type</li>
+        <li><a href="/schema/URL/">URL</a> - URL data type</li>
+    </ul>
+    
+    <footer>
+    </footer>
+</body>
+</html>

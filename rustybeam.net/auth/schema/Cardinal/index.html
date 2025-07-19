@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cardinal DataType - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body itemscope itemtype="https://rustybeam.net/schema/DataType">
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/schema/">Schemas</a> → 
+        Cardinal
+    </nav>
+    
+    <h1><span itemprop="name">Cardinal</span> DataType</h1>
+    
+    <p itemprop="description">The Cardinal type represents cardinality constraints for properties in schemas, indicating how many instances of a property are allowed or required.</p>
+    
+    <h2>Definition</h2>
+    
+    <table>
+        <tr>
+            <th>Type URL</th>
+            <td><code itemprop="id">https://rustybeam.net/schema/Cardinal</code></td>
+        </tr>
+        <tr>
+            <th>Base Type</th>
+            <td><code itemprop="baseType">text</code></td>
+        </tr>
+        <tr>
+            <th>Validation Pattern</th>
+            <td><code itemprop="validationPattern">^(1|0\.\.1|0\.\.n|1\.\.n)$</code></td>
+        </tr>
+    </table>
+    
+    <h2>Allowed Values</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Value</th>
+                <th>Meaning</th>
+                <th>Example Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>1</code></td>
+                <td>Exactly one (required)</td>
+                <td>An entity must have exactly one name</td>
+            </tr>
+            <tr>
+                <td><code>0..1</code></td>
+                <td>Zero or one (optional)</td>
+                <td>An entity may have a description or not</td>
+            </tr>
+            <tr>
+                <td><code>0..n</code></td>
+                <td>Zero or more (optional, multiple)</td>
+                <td>An entity can have any number of tags</td>
+            </tr>
+            <tr>
+                <td><code>1..n</code></td>
+                <td>One or more (required, multiple)</td>
+                <td>An order must have at least one item</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Usage in Property Definitions</h2>
+    
+    <p>Cardinal is used in every Property definition to specify cardinality:</p>
+    
+    <pre><code>&lt;tr itemscope itemtype="https://rustybeam.net/schema/Property"&gt;
+    &lt;td&gt;&lt;span itemprop="name"&gt;email&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="type"&gt;Text&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="cardinality"&gt;1&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="description"&gt;User's email address&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <h2>Validation</h2>
+    
+    <p>Validation software should:</p>
+    <ol>
+        <li>Check that the value exactly matches one of the four allowed patterns</li>
+        <li>Use the cardinality to validate property instances in data:
+            <ul>
+                <li><code>1</code> - Reject if missing or multiple</li>
+                <li><code>0..1</code> - Reject if multiple</li>
+                <li><code>0..n</code> - Always valid</li>
+                <li><code>1..n</code> - Reject if missing</li>
+            </ul>
+        </li>
+    </ol>
+    
+    <div class="info">
+        <p><strong>Note:</strong> Cardinal values use two dots (..) to indicate ranges, not three dots (...) or a single dot.</p>
+    </div>
+    
+    <h2>See Also</h2>
+    
+    <ul>
+        <li><a href="/schema/DataType/">DataType</a> - The meta-schema for data types</li>
+        <li><a href="/schema/Property/">Property</a> - Uses Cardinal for cardinality specification</li>
+        <li><a href="/schema/Text/">Text</a> - Base type for Cardinal</li>
+    </ul>
+    
+    <footer>
+    </footer>
+</body>
+</html>

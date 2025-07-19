@@ -208,7 +208,7 @@
                 </tr>
 
                 <!-- Deny anonymous access to authorization admin -->
-                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row" data-microdata-internal-id="__microdata_internal_6">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -234,7 +234,7 @@
                 </tr>
 
                 <!-- Deny anonymous access to config admin -->
-                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row" data-microdata-internal-id="__microdata_internal_65">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/config/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -430,7 +430,7 @@
                 
                 
                 <!-- Allow everyone to add todos -->
-                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row" data-microdata-internal-id="__microdata_internal_15">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">user</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#todos</span></td>
@@ -453,7 +453,7 @@
                 </tr>
                 
                 <!-- Deny deletion of todos by default -->
-                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row" data-microdata-internal-id="__microdata_internal_45">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#todos li</span></td>
@@ -599,7 +599,7 @@
                     </td>
                 </tr>
                 
-                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row">
+                <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row" data-microdata-internal-id="__microdata_internal_22">
                     <td><span itemprop="username" class="editable" contenteditable="plaintext-only">*</span></td>
                     <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/auth/logout</span></td>
                     <td><span itemprop="selector" class="editable" contenteditable="plaintext-only"></span></td>
@@ -791,7 +791,49 @@
             <td class="actions-cell">
                 <button onclick="deleteRule(this)" class="btn-danger">Delete</button>
             </td>
-        </tr></tbody>
+        </tr>
+        <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row" data-microdata-internal-id="__microdata_internal_30">
+            <td><span class="editable" contenteditable="plaintext-only" itemprop="username">jamesaduncan@mac.com</span></td>
+            <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/demos/todo/</span></td>
+            <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">#todos li</span></td>
+            <td class="methods-cell">
+                <ul class="methods-list">
+                    <!-- Method tags will be inserted here -->
+                
+        <li class="method-tag">
+            <span itemprop="method">GET</span>
+            <button onclick="removeMethod(this)" class="btn-small">×</button>
+        </li>
+    
+        <li class="method-tag">
+            <span itemprop="method">POST</span>
+            <button onclick="removeMethod(this)" class="btn-small">×</button>
+        </li>
+    
+        <li class="method-tag">
+            <span itemprop="method">PUT</span>
+            <button onclick="removeMethod(this)" class="btn-small">×</button>
+        </li>
+    
+        <li class="method-tag">
+            <span itemprop="method">DELETE</span>
+            <button onclick="removeMethod(this)" class="btn-small">×</button>
+        </li>
+    </ul>
+                <button onclick="addMethodToRule(this)" class="btn-small">+ Method</button>
+            </td>
+            <td>
+                <select itemprop="action" class="action-select" onchange="updateRule(this)">
+                    <option value="allow" selected="">allow</option>
+                    <option value="deny">deny</option>
+                </select>
+            </td>
+            <td><span class="editable" contenteditable="plaintext-only">James can do it all (temporarily)</span></td>
+            <td class="actions-cell">
+                <button onclick="deleteRule(this)" class="btn-danger">Delete</button>
+            </td>
+        </tr>    
+    </tbody>
         </table>
     </section>
     

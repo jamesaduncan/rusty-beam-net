@@ -83,16 +83,12 @@
             <li itemscope="" itemtype="https://schema.org/Action">
                 <meta itemprop="email" content="james@kinburnstreet.consulting">
                 <span itemprop="name">I need to figure out what to do next.</span>
-                <http-can method="delete" closest="#todos li">
-                    <button onclick="this.closest('li').DELETE()">Remove</button>
-                </http-can>
+                <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
             </li>
             <li itemscope="" itemtype="https://schema.org/Action">
                 <meta itemprop="email" content="jamesaduncan@mac.com">
                 <span itemprop="name">Why's that?</span>
-                <http-can method="delete" closest="#todos li">
-                    <button onclick="this.closest('li').DELETE()">Remove</button>
-                </http-can>
+                <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
             </li>
             <li itemscope="" itemtype="https://schema.org/Action">
                 <meta itemprop="email" content="james@kinburnstreet.consulting">
@@ -105,9 +101,15 @@
         <li itemscope="" itemtype="https://schema.org/Action">
                     <meta itemprop="email" content="james@kinburnstreet.consulting">
                     <span itemprop="name">Get to bed!</span>
-                    <http-can method="delete" closest="#todos li">
-                        <button onclick="this.closest('li').DELETE()">Remove</button>
-                    </http-can>
+                    <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
+                </li><li itemscope="" itemtype="https://schema.org/Action">
+                    <meta itemprop="email" content="james@kinburnstreet.consulting">
+                    <span itemprop="name">And don't forget your jacket!</span>
+                    <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
+                </li><li itemscope="" itemtype="https://schema.org/Action">
+                    <meta itemprop="email" content="james@kinburnstreet.consulting">
+                    <span itemprop="name">ETags!</span>
+                    <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
                 </li></ul>
         <form id="new-todo">
             <http-can method="post" selector="#todos">
@@ -122,5 +124,9 @@
         </form>
 
     </main>    
+    
+  
+
+        
     
 </body></html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RedirectRule Schema - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body itemscope itemtype="https://rustybeam.net/schema/RedirectRule">
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/schema/">Schemas</a> → 
+        RedirectRule
+    </nav>
+    
+    <h1>RedirectRule Schema</h1>
+    
+    <p>A RedirectRule defines a single URL redirection pattern that the redirect plugin uses to redirect incoming requests to new locations. Each rule specifies a source pattern, destination URL, and HTTP status code.</p>
+
+    <h2>Schema Definition</h2>
+    
+    <p>Schema URL: <code>https://rustybeam.net/schema/RedirectRule</code></p>
+    
+    <h2>Properties</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Cardinality</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr itemscope itemtype="https://rustybeam.net/schema/Property">
+                <td><span itemprop="name">from</span></td>
+                <td><span itemprop="type">https://rustybeam.net/schema/Text</span></td>
+                <td><span itemprop="cardinality">1</span></td>
+                <td><span itemprop="description">The source URL pattern to match. Can be an exact path (e.g., "/old-page.html") or a regex pattern (e.g., "/blog/(.+)")</span></td>
+            </tr>
+            <tr itemscope itemtype="https://rustybeam.net/schema/Property">
+                <td><span itemprop="name">to</span></td>
+                <td><span itemprop="type">https://rustybeam.net/schema/Text</span></td>
+                <td><span itemprop="cardinality">1</span></td>
+                <td><span itemprop="description">The destination URL to redirect to. Can be a relative path (e.g., "/new-page.html"), an absolute URL (e.g., "https://example.com"), or include capture group replacements (e.g., "/articles/$1")</span></td>
+            </tr>
+            <tr itemscope itemtype="https://rustybeam.net/schema/Property">
+                <td><span itemprop="name">status</span></td>
+                <td><span itemprop="type">https://rustybeam.net/schema/Number</span></td>
+                <td><span itemprop="cardinality">1</span></td>
+                <td><span itemprop="description">The HTTP status code to use for the redirect. Common values: 301 (Moved Permanently), 302 (Found), 303 (See Other), 307 (Temporary Redirect), 308 (Permanent Redirect)</span></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Example Usage</h2>
+    
+    <pre><code>&lt;tr itemprop="rule" itemscope itemtype="https://rustybeam.net/schema/RedirectRule"&gt;
+    &lt;td itemprop="from"&gt;/old-page.html&lt;/td&gt;
+    &lt;td itemprop="to"&gt;/new-page.html&lt;/td&gt;
+    &lt;td itemprop="status"&gt;301&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <h2>Status Code Reference</h2>
+    <ul>
+        <li><strong>301 (Moved Permanently)</strong>: The resource has permanently moved to a new location. Search engines will update their indexes.</li>
+        <li><strong>302 (Found)</strong>: The resource temporarily resides at a different location. Search engines will continue to index the original URL.</li>
+        <li><strong>303 (See Other)</strong>: Used after a POST request to redirect to a GET request.</li>
+        <li><strong>307 (Temporary Redirect)</strong>: Similar to 302 but guarantees the request method won't change.</li>
+        <li><strong>308 (Permanent Redirect)</strong>: Similar to 301 but guarantees the request method won't change.</li>
+    </ul>
+    
+    <footer>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Permission DataType - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body itemscope itemtype="https://rustybeam.net/schema/DataType">
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/schema/">Schemas</a> → 
+        Permission
+    </nav>
+    
+    <h1><span itemprop="name">Permission</span> DataType</h1>
+    
+    <p itemprop="description">The Permission type represents access control decisions, indicating whether an action should be allowed or denied.</p>
+    
+    <h2>Definition</h2>
+    
+    <table>
+        <tr>
+            <th>Type URL</th>
+            <td><code itemprop="id">https://rustybeam.net/schema/Permission</code></td>
+        </tr>
+        <tr>
+            <th>Base Type</th>
+            <td><code itemprop="baseType">text</code></td>
+        </tr>
+        <tr>
+            <th>Validation Pattern</th>
+            <td><code itemprop="validationPattern">^(?i)(allow|deny)$</code></td>
+        </tr>
+        <tr>
+            <th>Constraints</th>
+            <td><span itemprop="constraints">{"case_insensitive": true}</span></td>
+        </tr>
+    </table>
+    
+    <h2>Allowed Values</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Value</th>
+                <th>Meaning</th>
+                <th>Example Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>Allow</code></td>
+                <td>Grant access or permit the action</td>
+                <td>User can read the resource</td>
+            </tr>
+            <tr>
+                <td><code>Deny</code></td>
+                <td>Refuse access or block the action</td>
+                <td>User cannot delete the resource</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="info">
+        <p><strong>Note:</strong> Values are case-insensitive. <code>Allow</code>, <code>allow</code>, <code>ALLOW</code> are all valid and equivalent.</p>
+    </div>
+    
+    <h2>Usage in Property Definitions</h2>
+    
+    <p>Permission is typically used in authorization rules and access control schemas:</p>
+    
+    <pre><code>&lt;tr itemscope itemtype="https://rustybeam.net/schema/Property"&gt;
+    &lt;td&gt;&lt;span itemprop="name"&gt;effect&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="type"&gt;Permission&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="cardinality"&gt;1&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="description"&gt;Whether to allow or deny the action&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <h2>Usage in Data</h2>
+    
+    <pre><code>&lt;span itemprop="effect"&gt;Allow&lt;/span&gt;</code></pre>
+    
+    <h2>Validation</h2>
+    
+    <p>Validation software should:</p>
+    <ol>
+        <li>Accept any case variation of "allow" or "deny"</li>
+        <li>Normalize to canonical form (typically "Allow" or "Deny" with capital first letter)</li>
+        <li>Reject any other values</li>
+    </ol>
+    
+    <h2>Common Use Cases</h2>
+    
+    <ul>
+        <li>Authorization rules in security policies</li>
+        <li>Access control lists (ACLs)</li>
+        <li>Feature flags and toggles</li>
+        <li>Firewall rules</li>
+        <li>API rate limiting decisions</li>
+    </ul>
+    
+    <h2>See Also</h2>
+    
+    <ul>
+        <li><a href="/schema/DataType/">DataType</a> - The meta-schema for data types</li>
+        <li><a href="/schema/Boolean/">Boolean</a> - Similar binary choice type</li>
+        <li><a href="/schema/Cardinal/">Cardinal</a> - Another constrained text type</li>
+        <li><a href="/plugins/authorization/">Authorization Plugin</a> - Uses Permission type</li>
+    </ul>
+    
+    <footer>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL DataType - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body itemscope itemtype="https://rustybeam.net/schema/DataType">
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/schema/">Schemas</a> → 
+        URL
+    </nav>
+    
+    <h1><span itemprop="name">URL</span> DataType</h1>
+    
+    <p itemprop="description">The URL type represents Uniform Resource Locators (web addresses and other resource identifiers).</p>
+    
+    <h2>Definition</h2>
+    
+    <table>
+        <tr>
+            <th>Type URL</th>
+            <td><code itemprop="id">https://rustybeam.net/schema/URL</code></td>
+        </tr>
+        <tr>
+            <th>Base Type</th>
+            <td><code itemprop="baseType">url</code></td>
+        </tr>
+        <tr>
+            <th>Default Pattern</th>
+            <td><code itemprop="validationPattern">^(?:https?|ftp|file|mailto|data|tel|ws|wss):(?://)?[\w\-._~:/?#[\]@!$&amp;'()*+,;=%]+$</code></td>
+        </tr>
+        <tr>
+            <th>Constraints</th>
+            <td><span itemprop="constraints">{"format": "RFC 3986"}</span></td>
+        </tr>
+    </table>
+    
+    <h2>Accepted Schemes</h2>
+    
+    <p>The default validation pattern accepts URLs with these schemes:</p>
+    <ul>
+        <li>Web: <code>http://</code>, <code>https://</code></li>
+        <li>File Transfer: <code>ftp://</code></li>
+        <li>Local Files: <code>file://</code></li>
+        <li>Email: <code>mailto:</code></li>
+        <li>Data URLs: <code>data:</code></li>
+        <li>Telephone: <code>tel:</code></li>
+        <li>WebSocket: <code>ws://</code>, <code>wss://</code></li>
+    </ul>
+    
+    <h2>Examples</h2>
+    
+    <ul>
+        <li><code>https://example.com/path/to/page</code></li>
+        <li><code>http://localhost:8080/api</code></li>
+        <li><code>ftp://ftp.example.com/files/doc.pdf</code></li>
+        <li><code>mailto:user@example.com</code></li>
+        <li><code>file:///home/user/document.txt</code></li>
+        <li><code>data:text/plain;base64,SGVsbG8gV29ybGQ=</code></li>
+        <li><code>tel:+1-555-123-4567</code></li>
+        <li><code>ws://localhost:3000/socket</code></li>
+    </ul>
+    
+    <h2>Usage in Property Definitions</h2>
+    
+    <pre><code>&lt;tr itemscope itemtype="https://rustybeam.net/schema/Property"&gt;
+    &lt;td&gt;&lt;span itemprop="name"&gt;homepage&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="type"&gt;URL&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="cardinality"&gt;0..1&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="description"&gt;The organization's homepage&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <h2>Usage in Data</h2>
+    
+    <pre><code>&lt;a itemprop="homepage" href="https://example.com"&gt;Visit our website&lt;/a&gt;</code></pre>
+    
+    <div class="info">
+        <p><strong>Note:</strong> When using URLs in HTML, it's recommended to use appropriate elements like <code>&lt;a href&gt;</code> for links or <code>&lt;img src&gt;</code> for images, with the URL in the relevant attribute.</p>
+    </div>
+    
+    <h2>Validation Notes</h2>
+    
+    <ul>
+        <li>The pattern provides basic URL validation but doesn't guarantee the URL is reachable</li>
+        <li>For stricter validation, implement scheme-specific rules</li>
+        <li>Consider normalizing URLs (e.g., lowercase scheme, remove default ports)</li>
+    </ul>
+    
+    <h2>See Also</h2>
+    
+    <ul>
+        <li><a href="/schema/DataType/">DataType</a> - The meta-schema for data types</li>
+        <li><a href="/schema/Text/">Text</a> - Text data type</li>
+        <li><a href="/schema/Number/">Number</a> - Numeric data type</li>
+        <li><a href="/schema/DateTime/">DateTime</a> - Date and time data type</li>
+        <li><a href="/schema/Boolean/">Boolean</a> - Boolean data type</li>
+    </ul>
+    
+    <footer>
+    </footer>
+</body>
+</html>

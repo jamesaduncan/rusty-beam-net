@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DateTime DataType - Rusty Beam</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #333; }
+        code { background: #f5f5f5; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f8f8; font-weight: bold; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .info { background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 10px; }
+    </style>
+</head>
+<body itemscope itemtype="https://rustybeam.net/schema/DataType">
+    <nav>
+        <a href="/">Home</a> → 
+        <a href="/schema/">Schemas</a> → 
+        DateTime
+    </nav>
+    
+    <h1><span itemprop="name">DateTime</span> DataType</h1>
+    
+    <p itemprop="description">The DateTime type represents dates and times in ISO 8601 format.</p>
+    
+    <h2>Definition</h2>
+    
+    <table>
+        <tr>
+            <th>Type URL</th>
+            <td><code itemprop="id">https://rustybeam.net/schema/DateTime</code></td>
+        </tr>
+        <tr>
+            <th>Base Type</th>
+            <td><code itemprop="baseType">datetime</code></td>
+        </tr>
+        <tr>
+            <th>Default Pattern</th>
+            <td><code itemprop="validationPattern">^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[+-]\d{2}:\d{2})?)?$</code></td>
+        </tr>
+        <tr>
+            <th>Constraints</th>
+            <td><span itemprop="constraints">{"format": "ISO 8601"}</span></td>
+        </tr>
+    </table>
+    
+    <h2>Accepted Formats</h2>
+    
+    <p>The validation pattern accepts ISO 8601 dates and datetimes:</p>
+    <ul>
+        <li>Date only: <code>2024-07-18</code></li>
+        <li>Date and time: <code>2024-07-18T14:30:00</code></li>
+        <li>With milliseconds: <code>2024-07-18T14:30:00.123</code></li>
+        <li>With timezone:
+            <ul>
+                <li>UTC: <code>2024-07-18T14:30:00Z</code></li>
+                <li>Offset: <code>2024-07-18T14:30:00+02:00</code></li>
+                <li>Negative offset: <code>2024-07-18T14:30:00-05:00</code></li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h2>Usage in Property Definitions</h2>
+    
+    <pre><code>&lt;tr itemscope itemtype="https://rustybeam.net/schema/Property"&gt;
+    &lt;td&gt;&lt;span itemprop="name"&gt;createdAt&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="type"&gt;DateTime&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="cardinality"&gt;1&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span itemprop="description"&gt;When the record was created&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+    
+    <h2>Usage in Data</h2>
+    
+    <pre><code>&lt;time itemprop="createdAt" datetime="2024-07-18T14:30:00Z"&gt;July 18, 2024&lt;/time&gt;</code></pre>
+    
+    <div class="info">
+        <p><strong>Note:</strong> When using DateTime in HTML, it's recommended to use the <code>&lt;time&gt;</code> element with the <code>datetime</code> attribute for machine-readable values.</p>
+    </div>
+    
+    <h2>See Also</h2>
+    
+    <ul>
+        <li><a href="/schema/DataType/">DataType</a> - The meta-schema for data types</li>
+        <li><a href="/schema/Text/">Text</a> - Text data type</li>
+        <li><a href="/schema/Number/">Number</a> - Numeric data type</li>
+        <li><a href="/schema/Boolean/">Boolean</a> - Boolean data type</li>
+        <li><a href="/schema/URL/">URL</a> - URL data type</li>
+    </ul>
+    
+    <footer>
+    </footer>
+</body>
+</html>
