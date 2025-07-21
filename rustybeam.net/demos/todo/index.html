@@ -6,31 +6,7 @@
     <!-- Include DOM-aware primitives for real-time updates -->
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>
-    <script type="module">
-        import { Microdata } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
-        document.addEventListener("DOMContentLoaded", async () => {
-            const userData = await Microdata.fetch( '/auth/user' );
-            {
-                const template = new Microdata.Template( document.querySelector('nav > template') );
-                const result = template.render( userData.microdata[0] );
-                document.querySelector('nav').appendChild( result );
-            }
-            {
-                const template = new Microdata.Template( document.querySelector('#new-todo template') );
-                const result = template.render( userData.microdata[0] );
-                document.querySelector('#new-todo').appendChild( result );
-            }
-        
-            const form = document.querySelector('form#new-todo');
-            form.addEventListener('submit', async ( event ) => {
-                event.preventDefault();
-                const template = new Microdata.Template( document.querySelector('#todos template') );
-                document.querySelector('#todos').POST( template.render( form) );
-                form.reset();
-            });
 
-        });
-        </script>
 
 </head>
 <body>
@@ -128,5 +104,30 @@
         </form>
 
     </main>    
-    
-</body></html>
+    <script type="module">
+        import { Microdata } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
+        document.addEventListener("DOMContentLoaded", async () => {
+            const userData = await Microdata.fetch( '/auth/user' );
+            {
+                const template = new Microdata.Template( document.querySelector('nav > template') );
+                const result = template.render( userData.microdata[0] );
+                document.querySelector('nav').appendChild( result );
+            }
+            {
+                const template = new Microdata.Template( document.querySelector('#new-todo template') );
+                const result = template.render( userData.microdata[0] );
+                document.querySelector('#new-todo').appendChild( result );
+            }
+        
+            const form = document.querySelector('form#new-todo');
+            form.addEventListener('submit', async ( event ) => {
+                event.preventDefault();
+                const template = new Microdata.Template( document.querySelector('#todos template') );
+                document.querySelector('#todos').POST( template.render( form) );
+                form.reset();
+            });
+
+        });
+    </script>    
+</body>
+</html>
