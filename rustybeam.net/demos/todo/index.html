@@ -7,29 +7,31 @@
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>
     <script type="module">
-        import { MicrodataAPI } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
+        import { Microdata } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
         document.addEventListener("DOMContentLoaded", async () => {
-            const userData = await MicrodataAPI.fetch( "/auth/user" );
-            MicrodataAPI.apply( document.querySelector('nav > div'), userData, );
-            MicrodataAPI.apply( document.querySelector('form'), userData, );
-
+            const userData = await Microdata.fetch( '/auth/user' );
+            {
+                const template = new Microdata.Template( document.querySelector('nav > template') );
+                const result = template.render( userData.microdata[0] );
+                document.querySelector('nav').appendChild( result );
+            }
+            {
+                const template = new Microdata.Template( document.querySelector('#new-todo template') );
+                const result = template.render( userData.microdata[0] );
+                document.querySelector('#new-todo').parentNode.appendChild( result );
+            }
+        
             const form = document.querySelector('form#new-todo');
-            form.addEventListener('submit', async( event ) => {
+            form.addEventListener('submit', async ( event ) => {
+
                 event.preventDefault();
-                document.querySelector('#todos').POST( MicrodataAPI.render( document.querySelector('#todos template'), form ));
+                const template = new Microdata.Template( document.querySelector('#todos template') );
+                document.querySelector('#todos').POST( template.render( form) );
                 form.reset();
             });
-        });
 
-        document.logout = async() => {
-            const response = await fetch('/auth/logout', { method: 'post' });
-            if ( response.ok ) {
-                window.location.reload();
-            } else {
-                console.log(`logout failed: ${response.status} ${response.statusText}`);
-            }
-        }
-    </script>
+        });
+        </script>
 
 </head>
 <body>
@@ -43,10 +45,12 @@
             <http-cannot method="POST" selector="#todos">
                 <a href="/auth/google/login?return_to=/demos/todo/">Login with Google</a> <a href="/auth/github/login?/demos/todo/">Login with GitHub</a>
             </http-cannot>
-            <div itemtype="https://schema.org/Person">
-                <meta itemprop="email" content="">
-                <span itemprop="name"></span> (<button onclick="document.logout()">Log Out</button>)
-            </div>
+            <template>
+                <div itemscope="" itemtype="https://schema.org/Person">
+                    <meta itemprop="email" content="">
+                    <span itemprop="name"></span> (<button onclick="document.logout()">Log Out</button>)
+                </div>
+            </template>
         </nav>    
         <h1>Todo List</h1>
     </header>
@@ -83,12 +87,16 @@
             <li itemscope="" itemtype="https://schema.org/Action">
                 <meta itemprop="email" content="james@kinburnstreet.consulting">
                 <span itemprop="name">I need to figure out what to do next.</span>
-                <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
+                <http-can method="delete" closest="#todos li">
+                    <button onclick="this.closest('li').DELETE()">Remove</button>
+                </http-can>
             </li>
             <li itemscope="" itemtype="https://schema.org/Action">
                 <meta itemprop="email" content="jamesaduncan@mac.com">
                 <span itemprop="name">Why's that?</span>
-                <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
+                <http-can method="delete" closest="#todos li">
+                    <button onclick="this.closest('li').DELETE()">Remove</button>
+                </http-can>
             </li>
             <li itemscope="" itemtype="https://schema.org/Action">
                 <meta itemprop="email" content="james@kinburnstreet.consulting">
@@ -101,32 +109,25 @@
         <li itemscope="" itemtype="https://schema.org/Action">
                     <meta itemprop="email" content="james@kinburnstreet.consulting">
                     <span itemprop="name">Get to bed!</span>
-                    <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
-                </li><li itemscope="" itemtype="https://schema.org/Action">
-                    <meta itemprop="email" content="james@kinburnstreet.consulting">
-                    <span itemprop="name">And don't forget your jacket!</span>
-                    <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
-                </li><li itemscope="" itemtype="https://schema.org/Action">
-                    <meta itemprop="email" content="james@kinburnstreet.consulting">
-                    <span itemprop="name">ETags!</span>
-                    <http-can method="delete" closest="#todos li"><button onclick="this.closest('li').DELETE()">Remove</button></http-can>
+                    <http-can method="delete" closest="#todos li">
+                        <button onclick="this.closest('li').DELETE()">Remove</button>
+                    </http-can>
                 </li></ul>
         <form id="new-todo">
             <http-can method="post" selector="#todos">
+                <template>
+                    <div itemtype="https://schema.org/Person" itemscope="" itemid="/auth/user">
+                        <input itemprop="email" type="hidden" name="email">
+                    </div>
+                </template>
                 <input type="hidden" name="@context" value="https://schema.org">
                 <input type="hidden" name="@type" value="Action">
-                <div itemtype="https://schema.org/Person" itemscope="">
-                    <input itemprop="email" type="hidden" name="email">
-                </div>
                 <input type="text" name="name" placeholder="Enter a todo..." required="">
                 <button>Add Todo</button>
+                
             </http-can>
         </form>
 
     </main>    
-    
-  
-
-        
     
 </body></html>
