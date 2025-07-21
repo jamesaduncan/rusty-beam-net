@@ -18,12 +18,11 @@
             {
                 const template = new Microdata.Template( document.querySelector('#new-todo template') );
                 const result = template.render( userData.microdata[0] );
-                document.querySelector('#new-todo').parentNode.appendChild( result );
+                document.querySelector('#new-todo').appendChild( result );
             }
         
             const form = document.querySelector('form#new-todo');
             form.addEventListener('submit', async ( event ) => {
-
                 event.preventDefault();
                 const template = new Microdata.Template( document.querySelector('#todos template') );
                 document.querySelector('#todos').POST( template.render( form) );
