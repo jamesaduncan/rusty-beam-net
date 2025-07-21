@@ -89,17 +89,16 @@
                     </http-can>
                 </li></ul>
         <form id="new-todo">
+            <template>
+                <div itemtype="https://schema.org/Person" itemscope="" itemid="/auth/user">
+                    <input itemprop="email" type="hidden" name="email">
+                </div>
+            </template>
             <http-can method="post" selector="#todos">
-                <template>
-                    <div itemtype="https://schema.org/Person" itemscope="" itemid="/auth/user">
-                        <input itemprop="email" type="hidden" name="email">
-                    </div>
-                </template>
                 <input type="hidden" name="@context" value="https://schema.org">
                 <input type="hidden" name="@type" value="Action">
                 <input type="text" name="name" placeholder="Enter a todo..." required="">
-                <button>Add Todo</button>
-                
+                <button>Add Todo</button>                
             </http-can>
         </form>
 
