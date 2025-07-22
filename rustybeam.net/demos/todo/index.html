@@ -6,8 +6,10 @@
     <!-- Include DOM-aware primitives for real-time updates -->
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
     <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>
+    <script type="module" src="https://jamesaduncan.github.io/selector-subscriber/index.mjs"></script>
     <script type="module">
         import { Microdata } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
+        import { SelectorSubscriber } from "https://jamesaduncan.github.io/selector-subscriber/index.mjs";
         document.addEventListener("DOMContentLoaded", async () => {
             const userData = await Microdata.fetch( '/auth/user' );
             {
@@ -28,11 +30,22 @@
                 document.querySelector('#todos').POST( template.render( form) );
                 form.reset();
             });
+
+            SelectorSubscriber.subscribe("#logout", async ( element ) => {
+                element.addEventListener('click', async ( event ) => {
+                    event.preventDefault();
+                    const response = await fetch('/auth/logout', { method: 'POST' });
+                    if ( response.ok ) {
+                        document.dispatchEvent(new CustomEvent("HTTPAuthChange"));
+                        document.querySelector('div.loggedin')?.remove();
+                    }
+                });
+            });
+
         });
     </script>
 </head>
 <body>
-    
     <header>
         <nav>
             <menu>
@@ -40,12 +53,12 @@
                 <li><a href="/demos/">← Demos</a></li>
             </menu>
             <http-cannot method="POST" selector="#todos">
-                <a href="/auth/google/login?return_to=/demos/todo/">Login with Google</a> <a href="/auth/github/login?/demos/todo/">Login with GitHub</a>
+                <a href="/auth/google/login?return_to=/demos/todo/">Login with Google</a> <a href="/auth/github/login?return_to=/demos/todo/">Login with GitHub</a>
             </http-cannot>
-            <template>
-                <div itemscope="" itemtype="https://schema.org/Person">
+            <template id="logout">
+                <div class="loggedin" itemscope="" itemtype="https://schema.org/Person">
                     <meta itemprop="email" content="">
-                    <span itemprop="name"></span> (<button onclick="document.logout()">Log Out</button>)
+                    <span itemprop="name"></span> <button id="logout">Log Out</button>
                 </div>
             </template>
         </nav>    
@@ -126,5 +139,5 @@
 
     </main>    
 
-</body>
-</html>
+
+</body></html>
