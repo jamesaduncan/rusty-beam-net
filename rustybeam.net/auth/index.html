@@ -832,7 +832,48 @@
             <td class="actions-cell">
                 <button onclick="deleteRule(this)" class="btn-danger">Delete</button>
             </td>
-        </tr>    
+        </tr>
+        <tr itemscope="" itemtype="https://rustybeam.net/schema/AuthorizationRule" class="rule-row" data-microdata-internal-id="__microdata_internal_30">
+            <td><span class="editable" contenteditable="plaintext-only" itemprop="username">user</span></td>
+            <td><span itemprop="path" class="editable" contenteditable="plaintext-only">/playground/</span></td>
+            <td><span itemprop="selector" class="editable" contenteditable="plaintext-only">*</span></td>
+            <td class="methods-cell">
+                <ul class="methods-list">
+                    <!-- Method tags will be inserted here -->
+                            
+                    <li class="method-tag">
+                        <span itemprop="method">GET</span>
+                        <button onclick="removeMethod(this)" class="btn-small">×</button>
+                    </li>
+                
+                    <li class="method-tag">
+                        <span itemprop="method">POST</span>
+                        <button onclick="removeMethod(this)" class="btn-small">×</button>
+                    </li>
+                
+                    <li class="method-tag">
+                        <span itemprop="method">PUT</span>
+                        <button onclick="removeMethod(this)" class="btn-small">×</button>
+                    </li>
+                
+                    <li class="method-tag">
+                        <span itemprop="method">DELETE</span>
+                        <button onclick="removeMethod(this)" class="btn-small">×</button>
+                    </li>
+                </ul>
+                <button onclick="addMethodToRule(this)" class="btn-small">+ Method</button>
+            </td>
+            <td>
+                <select itemprop="action" class="action-select" onchange="updateRule(this)">
+                    <option value="allow" selected="">allow</option>
+                    <option value="deny">deny</option>
+                </select>
+            </td>
+            <td><span class="editable" contenteditable="plaintext-only">Any user can edit this page</span></td>
+            <td class="actions-cell">
+                <button onclick="deleteRule(this)" class="btn-danger">Delete</button>
+            </td>
+        </tr>            
     </tbody>
         </table>
     </section>
