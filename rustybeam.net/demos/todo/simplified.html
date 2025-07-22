@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List - Rusty Beam Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include DOM-aware primitives for real-time updates -->
+    <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/index.mjs"></script>
+    <script type="module" src="https://jamesaduncan.github.io/dom-aware-primitives/das-ws.mjs"></script>
+    <script type="module">
+        import { Microdata } from "https://jamesaduncan.github.io/schema-elements/index.mjs";
+        import { SelectorSubscriber } from "https://jamesaduncan.github.io/selector-subscriber/index.mjs";
+        document.addEventListener("DOMContentLoaded", async () => {
+            const userData = await Microdata.fetch( '/auth/user' );
+            {
+                const template = new Microdata.Template( document.querySelector('nav > template') );
+                const result = template.render( userData.microdata[0] );
+                document.querySelector('nav').appendChild( result );
+            }
+            {
+                const template = new Microdata.Template( document.querySelector('#new-todo template') );
+                const result = template.render( userData.microdata[0] );
+                document.querySelector('#new-todo').appendChild( result );
+            }
+        
+            SelectorSubscriber.subscribe("#logout", async ( element ) => {
+                element.addEventListener('click', async ( event ) => {
+                    event.preventDefault();
+                    const response = await fetch('/auth/logout', { method: 'POST' });
+                    if ( response.ok ) {
+                        document.dispatchEvent(new CustomEvent("HTTPAuthChange"));
+                        document.querySelector('div.loggedin')?.remove();
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <menu>
+                <li><a href="/">← Home</a></li>
+                <li><a href="/demos/">← Demos</a></li>
+            </menu>
+            <http-cannot method="POST" selector="#todos">
+                <a href="/auth/google/login?return_to=/demos/todo/">Login with Google</a> <a href="/auth/github/login?return_to=/demos/todo/">Login with GitHub</a>
+            </http-cannot>
+            <template id="logout">
+                <div class="loggedin" itemscope="" itemtype="https://schema.org/Person">
+                    <meta itemprop="email" content="">
+                    <span itemprop="name"></span> <button id="logout">Log Out</button>
+                </div>
+            </template>
+        </nav>    
+        <h1>Todo List</h1>
+    </header>
+
+    <template id="user">
+        <div itemscope="" itemtype="https://schema.org/Person">
+            <span itemprop="name">Loading user...</span>
+            <span itemprop="email">Loading email...</span>
+        </div>
+    </template>
+
+    <main>
+        <header>
+            <p>
+                This is a trivial todo-list application to demonstrate the power of a DOM-Aware server combined with
+                HTML5 Microdata formats
+            </p>
+            <p>
+                If you're logged in, then you can add todo items, and remove todo items that you've created.
+            </p>
+        </header>
+        
+        <h2>My Todos</h2>
+        <ul id="todos">
+            <li itemscope="" itemtype="https://schema.org/Action">
+                <meta itemprop="email" content="james@kinburnstreet.consulting">
+                <span itemprop="name">Get to bed!</span>
+                <http-can method="delete" closest="#todos li">
+                    <button onclick="this.closest('li').DELETE()">Remove</button>
+                </http-can>
+            </li>
+        </ul>
+
+        <form id="new-todo">
+            <http-can method="post" selector="#todos">
+                <input type="text" name="name" placeholder="Enter a todo..." required="">
+                <button>Add Todo</button>                
+            </http-can>
+        </form>
+        
+        <script type="module">
+            SelectorSubscriber.subscribe('form#new-todo', (form) => {
+                form.addEventListener('submit', async ( event ) => {
+                    event.preventDefault();
+
+                    const li = document.createElement('li');
+                    document.setAttribute('itemscope');
+                    document.setAttribute('itemtype', 'https://schema.org/Action');
+                    li.innerHTML = `<meta itemprop="email" content="${form.elements.email.value}}">
+                    <span itemprop="name">${form.elements.name.value}</span>
+                    <http-can method="delete" closest="#todos li">
+                        <button onclick="this.closest('li').DELETE()">Remove</button>
+                    </http-can>`;
+
+                    document.querySelector('#todos').POST( li );
+
+                    form.reset();
+                }
+            });
+        </script>
+    </main>    
+
+
+</body></html>
